@@ -2,34 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_itemProduct"
+        android:id="@+id/cv_Laptop_Product"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="top|right"
-            android:src="@drawable/new1"/>
             <LinearLayout
-                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:layout_margin="5dp"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/iv_fragmentImageProduct"
+                    android:id="@+id/iv_Laptop_Product"
                     android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="5dp" />
-
+                    android:layout_margin="5dp"
+                    android:layout_height="70dp"/>
                 <TextView
-                    android:id="@+id/tv_fragmentNameProduct"
+                    android:id="@+id/tv_nameLaptop_Product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -38,7 +31,7 @@
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/tv_fragmentPriceProduct"
+                    android:id="@+id/tv_priceLaptop_Product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

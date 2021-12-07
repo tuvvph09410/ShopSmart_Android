@@ -33,6 +33,9 @@ import com.example.shopsmart.Adapter.CategoryMenuStartAdapter;
 import com.example.shopsmart.Entity.Category;
 import com.example.shopsmart.Fragment.fragment_Account;
 import com.example.shopsmart.Fragment.fragment_Home;
+import com.example.shopsmart.Fragment.fragment_Nav_Ipad;
+import com.example.shopsmart.Fragment.fragment_Nav_Iphone;
+import com.example.shopsmart.Fragment.fragment_Nav_Laptop;
 import com.example.shopsmart.Fragment.fragment_Payment;
 import com.example.shopsmart.Fragment.fragment_Store;
 import com.example.shopsmart.R;
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         this.actionBar = getSupportActionBar();
+
         loadFragment(new fragment_Home());
 
     }
@@ -157,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDataCategoryJson() {
-        Context context;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Server.getUrlGetCategory(), new Response.Listener<JSONArray>() {
@@ -178,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    categoryList.add(0, new Category(0, "Trang Chủ", "https://cdn-icons.flaticon.com/png/512/3040/premium/3040144.png?token=exp=1638780109~hmac=423b8d2156688c28445fbcb872c4aa47", "Sale sập sàn"));
-                    categoryList.add(7, new Category(9, "Thông Tin", "https://cdn-icons.flaticon.com/png/512/3281/premium/3281312.png?token=exp=1638780378~hmac=f96c64aa877f3702db6aeececae28223", "Vũ Văn Tú - PH09410"));
+                    categoryList.add(0, new Category(0, "Trang chủ", "https://img.icons8.com/ios/50/000000/home-page.png", "Sale sập sàn"));
+                    categoryList.add(8, new Category(9, "Thông tin", "https://img.icons8.com/ios/50/000000/device-information.png", "Vũ Văn Tú - PH09410"));
                 }
 
             }
@@ -191,17 +194,39 @@ public class MainActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonArrayRequest);
     }
-    private void clickItemListView(){
+
+    private void clickItemListView() {
         this.lv_menuItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment;
-                switch (position){
+                switch (position) {
                     case 0:
-                        if (CheckConnected.haveNetworkConnection(getApplicationContext())){
-                            fragment=new fragment_Home();
-                            loadFragment(fragment);
-                        }
+                        fragment_Home fragment_home=new fragment_Home();
+                        loadFragment(fragment_home);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 1:
+                        fragment_Nav_Iphone fragmentIphone = new fragment_Nav_Iphone();
+                        Bundle bundleIphone = new Bundle();
+                        bundleIphone.putInt("positionPhone", position);
+                        fragmentIphone.setArguments(bundleIphone);
+                        loadFragment(fragmentIphone);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 2:
+                        fragment_Nav_Ipad fragmentNavIpad = new fragment_Nav_Ipad();
+                        Bundle bundleIpad = new Bundle();
+                        bundleIpad.putInt("positionIpad", position);
+                        fragmentNavIpad.setArguments(bundleIpad);
+                        loadFragment(fragmentNavIpad);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 3:
+                        fragment_Nav_Laptop fragmentNavLaptop= new fragment_Nav_Laptop();
+                        Bundle bundleLaptop = new Bundle();
+                        bundleLaptop.putInt("positionLaptop", position);
+                        fragmentNavLaptop.setArguments(bundleLaptop);
+                        loadFragment(fragmentNavLaptop);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                 }

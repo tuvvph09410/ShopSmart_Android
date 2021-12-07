@@ -39,10 +39,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProduct holder, int position) {
         Product product = this.productList.get(position);
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        Picasso.get().load(product.getUrlImage()).placeholder(R.drawable.ic_baseline_home_24).error(R.drawable.ic_baseline_error_24).into(holder.ivProduct);
-        holder.tvNameProduct.setText(product.getName());
-        holder.tvPriceProduct.setText(decimalFormat.format(product.getPrice()));
+        if (product.getPrice() > 15000000){
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+            Picasso.get().load(product.getUrlImage()).placeholder(R.drawable.ic_baseline_home_24).error(R.drawable.ic_baseline_error_24).into(holder.ivProduct);
+            holder.tvNameProduct.setText(product.getName());
+            holder.tvPriceProduct.setText(decimalFormat.format(product.getPrice())+"₫");
+        }
+
 
     }
 
