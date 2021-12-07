@@ -4,4 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="nav_open_drawer">Open Drawer</string>
+    <string name="nav_close_drawer">Close Drawer</string>
+    <string name="nav_app_home">Trang Chủ</string>
+    <string name="nav_app_store">Cửa hàng</string>
+    <string name="nav_app_payment">Thanh Toán</string>
+    <string name="nav_app_account">Tài Khoản</string>
+    <string name="nav_app_iphone_start">Iphone</string>
 </resources>

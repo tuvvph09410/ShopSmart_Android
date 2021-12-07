@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.fragment_Home">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="home" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center">
+
+            <ViewFlipper
+                android:id="@+id/vf_slidesShow"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:lineSpacingMultiplier="1.1"
+                android:text="ĐIỆN THOẠI NỔI BẬT NHẤT:"
+                android:textAllCaps="true"
+                android:textSize="11dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_homeIphone"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="66dp"
+                    android:layout_height="35dp"
+                    android:text="Iphone"
+                    android:textSize="7dp"
+                    app:cornerRadius="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_homeSamsung"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="72dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Samsung"
+                    android:textSize="7dp"
+                    app:cornerRadius="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_homeXiaomi"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="66dp"
+                    android:layout_height="35dp"
+                    android:text="Xiaomi"
+                    android:textSize="7dp"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" />
+    </LinearLayout>
 
 </FrameLayout>

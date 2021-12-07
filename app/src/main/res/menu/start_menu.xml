@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group app:showAsAction="always" >
+        <item android:title="@string/nav_app_iphone_start"
+            android:id="@+id/app_bar_iphone"
+            />
+    </group>
+
+</menu>

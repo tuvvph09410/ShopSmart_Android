@@ -4,56 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity"
-   >
+    tools:context=".Activity.MainActivity">
 
-    <LinearLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
+       >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Light"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:background="#dbdbdb"
-                android:layout_height="?attr/actionBarSize"
-                />
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <FrameLayout
-                android:id="@+id/frame_container"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_navigaiton_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottom_navigaiton_view"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:itemIconTint="@drawable/item_selected"
-                app:itemTextColor="@drawable/item_selected"
+                android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/bottom_navigation_menu" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="#dbdbdb" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/frame_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/bottom_navigaiton_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottom_navigaiton_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemIconTint="@drawable/item_selected"
+                    app:itemTextColor="@drawable/item_selected"
 
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:menu="@menu/bottom_navigation_menu" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start">
+            <ListView
+                android:id="@+id/lv_menuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
