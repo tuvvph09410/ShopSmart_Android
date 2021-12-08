@@ -7,76 +7,43 @@
         android:id="@+id/cv_itemProduct"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="top|right"
-                android:src="@drawable/new1" />
-
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|right"
+            android:src="@drawable/new1"/>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-
-
-                android:layout_margin="5dp"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/iv_fragmentImageProduct"
                     android:layout_width="70dp"
-
                     android:layout_height="70dp"
                     android:layout_margin="5dp" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_fragmentNameProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:text="Iphon13"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
 
-                    <TextView
-                        android:id="@+id/tv_fragmentNameProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Iphon13"
-                        android:textColor="#000000"
-                        android:textSize="12dp" />
-
-
-                    <TextView
-                        android:id="@+id/tv_fragmentPriceProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="10000đ"
-                        android:textColor="#F20"
-                        android:textSize="10dp" />
-
-
-                    <TextView
-                        android:id="@+id/tv_fragmentActiveProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/textview_border"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Sắp Về Hàng "
-                        android:textColor="#F20"
-                        android:textSize="11dp"
-                         />
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/tv_fragmentPriceProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10000đ"
+                    android:textColor="#F20"
+                    android:textSize="12dp" />
             </LinearLayout>
         </FrameLayout>
     </androidx.cardview.widget.CardView>

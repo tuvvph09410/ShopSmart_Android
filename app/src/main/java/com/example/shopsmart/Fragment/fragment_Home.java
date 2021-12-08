@@ -56,6 +56,7 @@ public class fragment_Home extends Fragment {
 
     public static fragment_Home newInstance() {
         fragment_Home fragment = new fragment_Home();
+
         return fragment;
     }
 
@@ -74,7 +75,7 @@ public class fragment_Home extends Fragment {
         this.productList = new ArrayList<>();
         this.productAdapter = new ProductAdapter(getContext(), this.productList);
         this.rv_product.setHasFixedSize(true);
-        this.rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        this.rv_product.setLayoutManager(new GridLayoutManager(getContext(), 3));
         this.rv_product.setAdapter(this.productAdapter);
         if (CheckConnected.haveNetworkConnection(getContext())) {
             this.showViewFipper();
@@ -93,6 +94,7 @@ public class fragment_Home extends Fragment {
         this.listViewFlopper.add("https://cdn.cellphones.com.vn/media/ltsoft/promotion/g50-690-300-max.png");
         this.listViewFlopper.add("https://cdn.cellphones.com.vn/media/ltsoft/promotion/vung-tau-690-300-max.png");
         for (int i = 0; i < this.listViewFlopper.size(); i++) {
+            Context context;
             this.imageViewFlopper = new ImageView(getContext());
             Picasso.get().load(this.listViewFlopper.get(i)).error(R.drawable.ic_baseline_error_24).into(this.imageViewFlopper);
             this.imageViewFlopper.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -101,7 +103,7 @@ public class fragment_Home extends Fragment {
         this.viewFlipper.setFlipInterval(5000);
         this.viewFlipper.setAutoStart(true);
 
-
+        Context context;
         Animation animation_in = AnimationUtils.loadAnimation(getContext(), R.anim.slides_in);
         Animation animation_out = AnimationUtils.loadAnimation(getContext(), R.anim.slides_out);
 
@@ -127,12 +129,9 @@ public class fragment_Home extends Fragment {
                             urlImage = jsonObject.getString("urlImage");
                             description = jsonObject.getString("description");
                             active = jsonObject.getInt("active");
-                            if (price > 20000000) {
-                                Product product = new Product(id, name, idCategory, price, urlImage, description, active);
-                                productList.add(product);
-                                productAdapter.notifyDataSetChanged();
-                            }
-
+                            Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                            productList.add(product);
+                            productAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
 
                             e.printStackTrace();

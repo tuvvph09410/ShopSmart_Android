@@ -42,12 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Picasso.get().load(product.getUrlImage()).placeholder(R.drawable.ic_baseline_home_24).error(R.drawable.ic_baseline_error_24).into(holder.ivProduct);
         holder.tvNameProduct.setText(product.getName());
-        holder.tvPriceProduct.setText(decimalFormat.format(product.getPrice()) + "₫");
-        if (product.getActive() == 0) {
-            holder.tvActiveProduct.setText("SẮP VỀ HÀNG");
-        } else {
-            holder.tvActiveProduct.setText("CÒN HÀNG");
-        }
+        holder.tvPriceProduct.setText(decimalFormat.format(product.getPrice()));
 
     }
 
@@ -60,7 +55,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ImageView ivProduct;
         TextView tvNameProduct;
         TextView tvPriceProduct;
-        TextView tvActiveProduct;
         CardView cardView;
 
         public ViewHolderProduct(@NonNull View itemView) {
@@ -68,7 +62,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             ivProduct = itemView.findViewById(R.id.iv_fragmentImageProduct);
             tvNameProduct = itemView.findViewById(R.id.tv_fragmentNameProduct);
             tvPriceProduct = itemView.findViewById(R.id.tv_fragmentPriceProduct);
-            tvActiveProduct = itemView.findViewById(R.id.tv_fragmentActiveProduct);
             cardView = (CardView) itemView.findViewById(R.id.cv_itemProduct);
         }
     }

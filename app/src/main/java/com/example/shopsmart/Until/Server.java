@@ -4,7 +4,6 @@ public class Server {
     private static String localhost = "https://tucaomypham.000webhostapp.com";
     private static String urlGetCategory = localhost + "/shop_smart/getselect_catelory.php";
     private static String urlGetProduct = localhost + "/shop_smart/getselect_product.php";
-    private static String urlGetProDuctByIDCateGory = localhost + "/shop_smart/getselectbyIdcatergory_product.php";
 
     public static String getLocalhost() {
         return localhost;
@@ -16,9 +15,5 @@ public class Server {
 
     public static String getUrlGetProduct() {
         return urlGetProduct;
-    }
-
-    public static String getUrlGetProDuctByIDCateGory() {
-        return urlGetProDuctByIDCateGory;
     }
 }
