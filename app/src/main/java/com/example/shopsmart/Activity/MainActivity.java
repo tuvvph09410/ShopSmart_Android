@@ -33,6 +33,10 @@ import com.example.shopsmart.Adapter.CategoryMenuStartAdapter;
 import com.example.shopsmart.Entity.Category;
 import com.example.shopsmart.Fragment.fragment_Account;
 import com.example.shopsmart.Fragment.fragment_Home;
+import com.example.shopsmart.Fragment.fragment_Nav_Accessories;
+import com.example.shopsmart.Fragment.fragment_Nav_Applecare;
+import com.example.shopsmart.Fragment.fragment_Nav_Watch;
+import com.example.shopsmart.Fragment.fragment_Nav_Earphone;
 import com.example.shopsmart.Fragment.fragment_Nav_Ipad;
 import com.example.shopsmart.Fragment.fragment_Nav_Iphone;
 import com.example.shopsmart.Fragment.fragment_Nav_Laptop;
@@ -201,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        fragment_Home fragment_home=new fragment_Home();
+                        fragment_Home fragment_home = new fragment_Home();
                         loadFragment(fragment_home);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
@@ -222,11 +226,43 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 3:
-                        fragment_Nav_Laptop fragmentNavLaptop= new fragment_Nav_Laptop();
+                        fragment_Nav_Laptop fragmentNavLaptop = new fragment_Nav_Laptop();
                         Bundle bundleLaptop = new Bundle();
                         bundleLaptop.putInt("positionLaptop", position);
                         fragmentNavLaptop.setArguments(bundleLaptop);
                         loadFragment(fragmentNavLaptop);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 4:
+                        fragment_Nav_Accessories fragmentNavAccessories = new fragment_Nav_Accessories();
+                        Bundle bundleAccessories = new Bundle();
+                        bundleAccessories.putInt("positionAccessories", position);
+                        fragmentNavAccessories.setArguments(bundleAccessories);
+                        loadFragment(fragmentNavAccessories);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 5:
+                        fragment_Nav_Earphone fragmentNavEarphone = new fragment_Nav_Earphone();
+                        Bundle bundleEarphone = new Bundle();
+                        bundleEarphone.putInt("positionEarphone", position);
+                        fragmentNavEarphone.setArguments(bundleEarphone);
+                        loadFragment(fragmentNavEarphone);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 6:
+                        fragment_Nav_Applecare fragmentNavApplecare = new fragment_Nav_Applecare();
+                        Bundle bundleApplecare = new Bundle();
+                        bundleApplecare.putInt("positionApplecare", 8);
+                        fragmentNavApplecare.setArguments(bundleApplecare);
+                        loadFragment(fragmentNavApplecare);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case 7:
+                        fragment_Nav_Watch fragmentNavWatch = new fragment_Nav_Watch();
+                        Bundle bundleWatch = new Bundle();
+                        bundleWatch.putInt("positionWatch", 9);
+                        fragmentNavWatch.setArguments(bundleWatch);
+                        loadFragment(fragmentNavWatch);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                 }

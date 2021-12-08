@@ -43,6 +43,11 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
         Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Ipad);
         holder.tv_nameIpad.setText(product.getName());
         holder.tv_priceIpad.setText(decimalFormat.format(product.getPrice())+"₫");
+        if (product.getActive() == 0) {
+            holder.tv_activeIpad.setText("SẮP VỀ HÀNG");
+        } else {
+            holder.tv_activeIpad.setText("CÒN HÀNG");
+        }
     }
 
     @Override
@@ -54,12 +59,14 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
         ImageView iv_Ipad;
         TextView tv_nameIpad;
         TextView tv_priceIpad;
+        TextView tv_activeIpad;
         CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Ipad = itemView.findViewById(R.id.iv_Ipad_Product);
             tv_nameIpad = itemView.findViewById(R.id.tv_nameIpad_Product);
             tv_priceIpad = itemView.findViewById(R.id.tv_priceIpad_Product);
+            tv_activeIpad = itemView.findViewById(R.id.tv_activeIpad_Product);
             cardView = itemView.findViewById(R.id.cv_Ipad_Product);
         }
     }

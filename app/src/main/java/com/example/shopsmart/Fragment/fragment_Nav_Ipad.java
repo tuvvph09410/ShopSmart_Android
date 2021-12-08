@@ -23,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductIpadAdapter;
-import com.example.shopsmart.Adapter.ProductSmartPhoneAdapter;
+import com.example.shopsmart.Adapter.ProductIpadAdapter;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -51,7 +51,7 @@ public class fragment_Nav_Ipad extends Fragment {
     private int active = 0;
     private List<Product> productList;
     private ViewFlipper flipperIpad;
-    private List<String> vFlipperSmartPhoneList;
+    private List<String> vFlipperIpadList;
     private ImageView ivFlipperIpad;
     private ProductIpadAdapter productIpadAdapter;
     private RecyclerView mRecyclerViewIpad;
@@ -96,13 +96,13 @@ public class fragment_Nav_Ipad extends Fragment {
     }
 
     private void showViewFlipperIpad() {
-        this.vFlipperSmartPhoneList = new ArrayList<>();
-        this.vFlipperSmartPhoneList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/ts7fe-595-100-max.png");
-        this.vFlipperSmartPhoneList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/gen9-mini-6-595x100_10_.png");
-        this.vFlipperSmartPhoneList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/download023.png");
-        for (int i = 0; i < this.vFlipperSmartPhoneList.size(); i++) {
+        this.vFlipperIpadList = new ArrayList<>();
+        this.vFlipperIpadList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/ts7fe-595-100-max.png");
+        this.vFlipperIpadList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/gen9-mini-6-595x100_10_.png");
+        this.vFlipperIpadList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/download023.png");
+        for (int i = 0; i < this.vFlipperIpadList.size(); i++) {
             this.ivFlipperIpad = new ImageView(getContext());
-            Picasso.get().load(this.vFlipperSmartPhoneList.get(i)).error(R.drawable.ic_baseline_error_24).into(this.ivFlipperIpad);
+            Picasso.get().load(this.vFlipperIpadList.get(i)).error(R.drawable.ic_baseline_error_24).into(this.ivFlipperIpad);
             this.ivFlipperIpad.setScaleType(ImageView.ScaleType.FIT_XY);
             this.flipperIpad.addView(this.ivFlipperIpad);
         }

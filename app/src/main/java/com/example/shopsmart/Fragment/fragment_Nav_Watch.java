@@ -1,11 +1,6 @@
 package com.example.shopsmart.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,8 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.shopsmart.Adapter.ProductIpadAdapter;
-import com.example.shopsmart.Adapter.ProductLaptopAdapter;
+import com.example.shopsmart.Adapter.ProductWatchAdapter;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -39,13 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_Nav_Laptop#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class fragment_Nav_Laptop extends Fragment {
-    private int position_Laptop;
+
+public class fragment_Nav_Watch extends Fragment {
+    private int position_Watch;
     private int id = 0;
     private String name = null;
     private int idCategory = 0;
@@ -54,20 +48,19 @@ public class fragment_Nav_Laptop extends Fragment {
     private String description = null;
     private int active = 0;
     private List<Product> productList;
-    private ViewFlipper flipperLaptop;
-    private List<String> vFlipperLaptopList;
-    private ImageView ivFlipperLaptop;
-    private ProductLaptopAdapter productLaptopAdapter;
-    private RecyclerView mRecyclerViewLaptop;
+    private ViewFlipper flipperWatch;
+    private List<String> vFlipperWatchList;
+    private ImageView ivFlipperWatch;
+    private ProductWatchAdapter productWatchAdapter;
+    private RecyclerView mRecyclerViewWatch;
 
-    public fragment_Nav_Laptop() {
+    public fragment_Nav_Watch() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public static fragment_Nav_Laptop newInstance(String param1, String param2) {
-        fragment_Nav_Laptop fragment = new fragment_Nav_Laptop();
+    public static fragment_Nav_Watch newInstance() {
+        fragment_Nav_Watch fragment = new fragment_Nav_Watch();
         return fragment;
     }
 
@@ -81,51 +74,49 @@ public class fragment_Nav_Laptop extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_nav_laptop, container, false);
+        View view = inflater.inflate(R.layout.fragment_nav_watch, container, false);
         Bundle bundle = getArguments();
-        this.position_Laptop = bundle.getInt("positionLaptop");
+        this.position_Watch = bundle.getInt("positionWatch");
         this.productList = new ArrayList<>();
 
-        this.flipperLaptop = view.findViewById(R.id.vf_slideLaptop);
-        this.mRecyclerViewLaptop = view.findViewById(R.id.rv_Laptop);
-        this.productLaptopAdapter = new ProductLaptopAdapter(getContext(), this.productList);
-        this.mRecyclerViewLaptop.setHasFixedSize(true);
-        this.mRecyclerViewLaptop.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        this.mRecyclerViewLaptop.setAdapter(this.productLaptopAdapter);
+        this.flipperWatch = view.findViewById(R.id.vf_slideWatch);
+        this.mRecyclerViewWatch = view.findViewById(R.id.rv_Watch);
+        this.productWatchAdapter = new ProductWatchAdapter(getContext(), this.productList);
+        this.mRecyclerViewWatch.setHasFixedSize(true);
+        this.mRecyclerViewWatch.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        this.mRecyclerViewWatch.setAdapter(this.productWatchAdapter);
 
         if (CheckConnected.haveNetworkConnection(getContext())) {
-            this.showViewFlipperLaptop();
-            this.postDataByIDcategoryProduct(this.position_Laptop);
+            this.showViewFlipperWatch();
+            this.postDataByIDcategoryProduct(this.position_Watch);
         }
         return view;
     }
 
-    private void showViewFlipperLaptop() {
-        this.vFlipperLaptopList = new ArrayList<>();
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/msi-gaming-595-100-max.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/asus-b5-595-100-max.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/zbfl-595-100-max.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/12_1.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/12_1.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/_led-325-595-100-max.png");
-        this.vFlipperLaptopList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/NOR-T10-LAPTOP-595X100.png");
-
-        for (int i = 0; i < this.vFlipperLaptopList.size(); i++) {
-            this.ivFlipperLaptop = new ImageView(getContext());
-            Picasso.get().load(this.vFlipperLaptopList.get(i)).error(R.drawable.ic_baseline_error_24).into(this.ivFlipperLaptop);
-            this.ivFlipperLaptop.setScaleType(ImageView.ScaleType.FIT_XY);
-            this.flipperLaptop.addView(this.ivFlipperLaptop);
+    private void showViewFlipperWatch() {
+        this.vFlipperWatchList = new ArrayList<>();
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/gt3-cate-595-100-max.png");
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/apple-watch-001-595-100-max-v1a.png");
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/aw-ch-595-100-max.png");
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/series-7-595-100-max.png");
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/huawei.png");
+        this.vFlipperWatchList.add("https://cdn.cellphones.com.vn/media/resized//ltsoft/promotioncategory/Cate-1190x200awesimviettel1.png");
+        for (int i = 0; i < this.vFlipperWatchList.size(); i++) {
+            this.ivFlipperWatch = new ImageView(getContext());
+            Picasso.get().load(this.vFlipperWatchList.get(i)).error(R.drawable.ic_baseline_error_24).into(this.ivFlipperWatch);
+            this.ivFlipperWatch.setScaleType(ImageView.ScaleType.FIT_XY);
+            this.flipperWatch.addView(this.ivFlipperWatch);
         }
-        this.flipperLaptop.setFlipInterval(5000);
-        this.flipperLaptop.setAutoStart(true);
+        this.flipperWatch.setFlipInterval(5000);
+        this.flipperWatch.setAutoStart(true);
 
         Animation animation_in = AnimationUtils.loadAnimation(getContext(), R.anim.slides_in);
         Animation animation_out = AnimationUtils.loadAnimation(getContext(), R.anim.slides_out);
-        this.flipperLaptop.setInAnimation(animation_in);
-        this.flipperLaptop.setOutAnimation(animation_out);
+        this.flipperWatch.setInAnimation(animation_in);
+        this.flipperWatch.setOutAnimation(animation_out);
     }
 
-    private void postDataByIDcategoryProduct(int position_Laptop) {
+    private void postDataByIDcategoryProduct(int position_Watch) {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProDuctByIDCateGory(), new Response.Listener<String>() {
             @Override
@@ -144,7 +135,7 @@ public class fragment_Nav_Laptop extends Fragment {
                             active = jsonObject.getInt("active");
                             Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                             productList.add(product);
-                            productLaptopAdapter.notifyDataSetChanged();
+                            productWatchAdapter.notifyDataSetChanged();
                         }
 
                     } catch (JSONException e) {
@@ -162,7 +153,7 @@ public class fragment_Nav_Laptop extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("categoryID", String.valueOf(position_Laptop));
+                params.put("categoryID", String.valueOf(position_Watch));
                 return params;
             }
         };

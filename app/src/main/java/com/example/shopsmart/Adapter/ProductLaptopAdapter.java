@@ -43,6 +43,11 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
         Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Laptop);
         holder.tv_nameLaptop.setText(product.getName());
         holder.tv_priceLaptop.setText(decimalFormat.format(product.getPrice())+"₫");
+        if (product.getActive() == 0) {
+            holder.tv_activeLaptop.setText("SẮP VỀ HÀNG");
+        } else {
+            holder.tv_activeLaptop.setText("CÒN HÀNG");
+        }
     }
 
     @Override
@@ -54,12 +59,14 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
         ImageView iv_Laptop;
         TextView tv_nameLaptop;
         TextView tv_priceLaptop;
+        TextView tv_activeLaptop;
         CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Laptop = itemView.findViewById(R.id.iv_Laptop_Product);
             tv_nameLaptop = itemView.findViewById(R.id.tv_nameLaptop_Product);
             tv_priceLaptop = itemView.findViewById(R.id.tv_priceLaptop_Product);
+            tv_activeLaptop =itemView.findViewById(R.id.tv_activeLaptop_Product);
             cardView = itemView.findViewById(R.id.cv_Laptop_Product);
         }
     }

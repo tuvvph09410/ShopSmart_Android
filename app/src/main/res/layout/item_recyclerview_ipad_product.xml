@@ -14,6 +14,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
+
             android:layout_margin="5dp"
             android:layout_height="wrap_content">
             <ImageView
@@ -21,23 +22,43 @@
                 android:layout_width="70dp"
                 android:layout_margin="5dp"
                 android:layout_height="70dp"/>
-            <TextView
-                android:id="@+id/tv_nameIpad_Product"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:text="Iphon13"
-                android:textColor="#000000"
-                android:textSize="12dp" />
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_nameIpad_Product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Iphon13"
+                    android:textColor="#000000"
+                    android:textSize="12dp" />
 
-            <TextView
-                android:id="@+id/tv_priceIpad_Product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="10000đ"
-                android:textColor="#F20"
-                android:textSize="10dp" />
+                <TextView
+                    android:id="@+id/tv_priceIpad_Product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="10000đ"
+                    android:textColor="#F20"
+                    android:textSize="10dp" />
+                <TextView
+                    android:id="@+id/tv_activeIpad_Product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Sắp Về Hàng "
+                    android:textColor="#F20"
+                    android:textSize="11dp"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
             </FrameLayout>
     </androidx.cardview.widget.CardView>

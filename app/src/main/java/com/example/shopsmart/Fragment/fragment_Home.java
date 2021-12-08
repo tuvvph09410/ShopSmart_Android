@@ -127,9 +127,12 @@ public class fragment_Home extends Fragment {
                             urlImage = jsonObject.getString("urlImage");
                             description = jsonObject.getString("description");
                             active = jsonObject.getInt("active");
-                            Product product = new Product(id, name, idCategory, price, urlImage, description, active);
-                            productList.add(product);
-                            productAdapter.notifyDataSetChanged();
+                            if (price > 20000000) {
+                                Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                                productList.add(product);
+                                productAdapter.notifyDataSetChanged();
+                            }
+
                         } catch (JSONException e) {
 
                             e.printStackTrace();

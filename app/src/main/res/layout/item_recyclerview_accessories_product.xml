@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_smartPhone_Product"
+        android:id="@+id/cv_Accessories_Product"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
             <FrameLayout
@@ -17,7 +17,7 @@
             android:layout_margin="5dp"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/iv_smartPhone_Product"
+                android:id="@+id/iv_Accessories_Product"
                 android:layout_width="70dp"
                 android:layout_margin="5dp"
                 android:layout_height="70dp"/>
@@ -28,7 +28,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tv_nameSmartPhone_Product"
+                    android:id="@+id/tv_nameAccessories_Product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -37,7 +37,7 @@
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/tv_priceSmartPhone_Product"
+                    android:id="@+id/tv_priceAccessories_Product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -46,7 +46,7 @@
                     android:textColor="#F20"
                     android:textSize="10dp" />
                 <TextView
-                    android:id="@+id/tv_activeSmartPhone_Product"
+                    android:id="@+id/tv_activeAccessories_Product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/textview_border"

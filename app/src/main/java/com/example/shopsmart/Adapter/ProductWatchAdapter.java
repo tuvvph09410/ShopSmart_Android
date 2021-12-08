@@ -18,20 +18,21 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartPhoneAdapter.ViewHolder> {
+public class ProductWatchAdapter extends RecyclerView.Adapter<ProductWatchAdapter.ViewHolder>{
     private Context context;
     private List<Product> productList;
-
-    public ProductSmartPhoneAdapter(Context context, List<Product> productList) {
+    public ProductWatchAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
 
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_recyclerview_smartphone_product, null);
-        ViewHolder viewHolder = new ViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_recyclerview_watch_product, null);
+        ProductWatchAdapter.ViewHolder viewHolder = new ProductWatchAdapter.ViewHolder(view);
         return viewHolder;
     }
 
@@ -39,13 +40,13 @@ public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartP
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = this.productList.get(position);
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_smartPhone);
-        holder.tv_nameSmartPhone.setText(product.getName());
-        holder.tv_priceSmartPhone.setText(decimalFormat.format(product.getPrice())+"₫");
+        Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Watch);
+        holder.tv_nameWatch.setText(product.getName());
+        holder.tv_priceWatch.setText(decimalFormat.format(product.getPrice())+"₫");
         if (product.getActive() == 0) {
-            holder.tv_activeSmartPhone.setText("SẮP VỀ HÀNG");
+            holder.tv_activeWatch.setText("SẮP VỀ HÀNG");
         } else {
-            holder.tv_activeSmartPhone.setText("CÒN HÀNG");
+            holder.tv_activeWatch.setText("CÒN HÀNG");
         }
     }
 
@@ -55,19 +56,18 @@ public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartP
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_smartPhone;
-        TextView tv_nameSmartPhone;
-        TextView tv_priceSmartPhone;
-        TextView tv_activeSmartPhone;
+        ImageView iv_Watch;
+        TextView tv_nameWatch;
+        TextView tv_priceWatch;
+        TextView tv_activeWatch;
         CardView cardView;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            iv_smartPhone = itemView.findViewById(R.id.iv_smartPhone_Product);
-            tv_nameSmartPhone = itemView.findViewById(R.id.tv_nameSmartPhone_Product);
-            tv_priceSmartPhone = itemView.findViewById(R.id.tv_priceSmartPhone_Product);
-            tv_activeSmartPhone =itemView.findViewById(R.id.tv_activeSmartPhone_Product);
-            cardView = itemView.findViewById(R.id.cv_smartPhone_Product);
+            iv_Watch = itemView.findViewById(R.id.iv_Watch_Product);
+            tv_nameWatch = itemView.findViewById(R.id.tv_nameWatch_Product);
+            tv_priceWatch = itemView.findViewById(R.id.tv_priceWatch_Product);
+            tv_activeWatch = itemView.findViewById(R.id.tv_activeWatch_Product);
+            cardView = itemView.findViewById(R.id.cv_Watch_Product);
         }
     }
 }
