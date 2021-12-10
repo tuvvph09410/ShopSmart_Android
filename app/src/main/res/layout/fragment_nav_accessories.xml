@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.fragment_Nav_Iphone">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.fragment_Nav_Accessories">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_margin="5dp">
 
             <ViewFlipper
-                android:id="@+id/vf_slideSmartPhone"
+                android:id="@+id/vf_slideAccessories"
                 android:layout_width="match_parent"
                 android:layout_height="80dp" />
         </LinearLayout>
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="24"
                 android:lineSpacingMultiplier="1.1"
-                android:text="ĐIỆN THOẠI:"
+                android:text="Tablet:"
                 android:textAllCaps="true"
                 android:textSize="11dp"
                 android:textStyle="bold" />
@@ -45,7 +45,7 @@
                 android:layout_weight="7">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_smartPhoneIphone"
+                    android:id="@+id/btn_AccessoriesIphone"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="66dp"
                     android:layout_height="35dp"
@@ -54,7 +54,7 @@
                     app:cornerRadius="20dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_smartPhoneSamsung"
+                    android:id="@+id/btn_AccessoriesSamsung"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="72dp"
                     android:layout_height="35dp"
@@ -65,7 +65,7 @@
                     app:cornerRadius="20dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_smartPhoneXiaomi"
+                    android:id="@+id/btn_AccessoriesXiaomi"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="66dp"
                     android:layout_height="35dp"
@@ -75,22 +75,21 @@
                     app:cornerRadius="20dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_allSmartPhone"
+                    android:id="@+id/btn_AccessoriesOppo"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="66dp"
                     android:layout_height="35dp"
-                    android:text="Tất cả"
+                    android:text="Oppo"
                     android:textSize="7dp"
                     app:cornerRadius="20dp" />
             </LinearLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_smartPhone"
+            android:id="@+id/rv_Accessories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp" />
     </LinearLayout>
-
 
 </FrameLayout>

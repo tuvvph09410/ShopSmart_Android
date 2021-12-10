@@ -1,9 +1,22 @@
 package com.example.shopsmart.Entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "Category")
 public class Category {
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "urlImage")
     private String urlImage;
+
+    @ColumnInfo(name = "description")
     private String description;
 
     public Category(int id, String title, String urlImage, String description) {

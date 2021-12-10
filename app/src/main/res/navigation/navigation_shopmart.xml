@@ -14,7 +14,11 @@
         android:id="@+id/fragment_Home"
         android:name="com.example.shopsmart.Fragment.fragment_Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragment_Home_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <activity
         android:id="@+id/splashActivity"
         android:name="com.example.shopsmart.Activity.SplashActivity"
@@ -24,15 +28,48 @@
         android:id="@+id/fragment_Account"
         android:name="com.example.shopsmart.Fragment.fragment_Account"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_fragment_Account_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_Store"
         android:name="com.example.shopsmart.Fragment.fragment_Store"
         android:label="fragment_store"
-        tools:layout="@layout/fragment_store" />
+        tools:layout="@layout/fragment_store" >
+        <action
+            android:id="@+id/action_fragment_Store_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_fragment_Store_to_mainActivity2"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_Payment"
         android:name="com.example.shopsmart.Fragment.fragment_Payment"
         android:label="fragment__payment"
-        tools:layout="@layout/fragment__payment" />
+        tools:layout="@layout/fragment__payment" >
+        <action
+            android:id="@+id/action_fragment_Payment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_Nav_Iphone"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Iphone"
+        android:label="fragment_nav_iphone"
+        tools:layout="@layout/fragment_nav_iphone" >
+        <action
+            android:id="@+id/action_fragment_Nav_Iphone_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_Nav_Ipad"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Ipad"
+        android:label="fragment_nav_ipad"
+        tools:layout="@layout/fragment_nav_ipad" >
+        <action
+            android:id="@+id/action_fragment_Nav_Ipad_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
 </navigation>
