@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.CategoryMenuStartAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Category;
 import com.example.shopsmart.Fragment.fragment_Account;
 import com.example.shopsmart.Fragment.fragment_Home;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private String urlCategory = null;
     private String descriptionCategory = null;
     private ListView lv_menuItem;
+    private loadingDialog_ProgressBar dialog_progressBar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +83,22 @@ public class MainActivity extends AppCompatActivity {
         this.lv_menuItem = findViewById(R.id.lv_menuItem);
         this.categoryList = new ArrayList<>();
 
+        //loading dialog_progressBar
+        this.dialog_progressBar=new loadingDialog_ProgressBar(MainActivity.this);
+
         this.actionToolBar();
 
         this.adapterCategoryMenu = new CategoryMenuStartAdapter(categoryList, getApplicationContext());
         this.lv_menuItem.setAdapter(this.adapterCategoryMenu);
         if (CheckConnected.haveNetworkConnection(getApplicationContext())) {
-
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                dialog_progressBar.dismissLoading_DialogProgressBar();
+                }
+            },3000);
             this.getDataCategoryJson();
             this.clickItemListView();
         }

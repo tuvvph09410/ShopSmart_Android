@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductIpadAdapter;
 import com.example.shopsmart.Adapter.ProductLaptopAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -59,7 +60,7 @@ public class fragment_Nav_Laptop extends Fragment {
     private ImageView ivFlipperLaptop;
     private ProductLaptopAdapter productLaptopAdapter;
     private RecyclerView mRecyclerViewLaptop;
-
+    private loadingDialog_ProgressBar dialog_progressBar;
     public fragment_Nav_Laptop() {
         // Required empty public constructor
     }
@@ -92,8 +93,21 @@ public class fragment_Nav_Laptop extends Fragment {
         this.mRecyclerViewLaptop.setHasFixedSize(true);
         this.mRecyclerViewLaptop.setLayoutManager(new GridLayoutManager(getContext(), 2));
         this.mRecyclerViewLaptop.setAdapter(this.productLaptopAdapter);
-
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFlipperLaptop();
             this.postDataByIDcategoryProduct(this.position_Laptop);
         }

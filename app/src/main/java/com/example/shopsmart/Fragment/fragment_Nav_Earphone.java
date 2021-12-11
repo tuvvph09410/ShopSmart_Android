@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductEarphoneAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -53,7 +54,7 @@ public class fragment_Nav_Earphone extends Fragment {
     private ImageView ivFlipperEarphone;
     private ProductEarphoneAdapter productEarphoneAdapter;
     private RecyclerView mRecyclerViewEarphone;
-
+    private loadingDialog_ProgressBar dialog_progressBar;
     public fragment_Nav_Earphone() {
         // Required empty public constructor
     }
@@ -85,8 +86,21 @@ public class fragment_Nav_Earphone extends Fragment {
         this.mRecyclerViewEarphone.setHasFixedSize(true);
         this.mRecyclerViewEarphone.setLayoutManager(new GridLayoutManager(getContext(), 2));
         this.mRecyclerViewEarphone.setAdapter(this.productEarphoneAdapter);
-
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFlipperEarphone();
             this.postDataByIDcategoryProduct(this.position_Earphone);
         }

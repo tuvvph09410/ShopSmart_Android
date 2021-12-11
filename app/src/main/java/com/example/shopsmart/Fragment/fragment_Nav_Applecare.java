@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductApplecareAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -53,7 +54,7 @@ public class fragment_Nav_Applecare extends Fragment {
     private ImageView ivFlipperApplecare;
     private ProductApplecareAdapter productApplecareAdapter;
     private RecyclerView mRecyclerViewApplecare;
-
+    private loadingDialog_ProgressBar dialog_progressBar;
     public fragment_Nav_Applecare() {
         // Required empty public constructor
     }
@@ -86,7 +87,22 @@ public class fragment_Nav_Applecare extends Fragment {
         this.mRecyclerViewApplecare.setLayoutManager(new GridLayoutManager(getContext(), 2));
         this.mRecyclerViewApplecare.setAdapter(this.productApplecareAdapter);
 
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
+
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFlipperApplecare();
             this.postDataByIDcategoryProduct(this.position_Applecare);
         }

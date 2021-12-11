@@ -28,6 +28,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductSmartPhoneAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -70,7 +71,7 @@ public class fragment_Nav_Iphone extends Fragment {
     private int position_Manufacturer_Iphone = 1;
     private int position_Manufacturer_Samsung = 2;
     private int position_Manufacturer_Xiaomi = 3;
-
+    private loadingDialog_ProgressBar dialog_progressBar;
     public fragment_Nav_Iphone() {
         // Required empty public constructor
     }
@@ -102,12 +103,27 @@ public class fragment_Nav_Iphone extends Fragment {
         this.mbtn_navXiaomi_SmartPhone = view.findViewById(R.id.btn_smartPhoneXiaomi);
         this.mbtn_navAll_SmartPhone=view.findViewById(R.id.btn_allSmartPhone);
 
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
+
         this.productSmartPhoneAdapter = new ProductSmartPhoneAdapter(getContext(), this.productList);
         this.mRecyclerViewSmartPhone.setHasFixedSize(true);
         this.mRecyclerViewSmartPhone.setLayoutManager(new GridLayoutManager(getContext(), 2));
         this.mRecyclerViewSmartPhone.setAdapter(productSmartPhoneAdapter);
 
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFlipperSmartPhone();
             this.postDataByIDcategoryProduct(this.position_Phone);
 

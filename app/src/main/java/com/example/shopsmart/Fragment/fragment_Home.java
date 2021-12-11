@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -63,6 +65,7 @@ public class fragment_Home extends Fragment {
     private int positionIphone_Manufacturer = 1;
     private int positionSamsung_Manufacturer = 2;
     private int positionXiaomi_Manufacturer = 3;
+    private loadingDialog_ProgressBar dialog_progressBar;
 
     public fragment_Home() {
         // Required empty public constructor
@@ -89,6 +92,8 @@ public class fragment_Home extends Fragment {
         this.btn_homeSamsung = view.findViewById(R.id.btn_homeSamsung);
         this.btn_homeXiaomi = view.findViewById(R.id.btn_homeXiaomi);
 
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
+
         this.productList = new ArrayList<>();
         this.productAdapter = new ProductAdapter(getContext(), this.productList);
         this.rv_product.setHasFixedSize(true);
@@ -96,6 +101,19 @@ public class fragment_Home extends Fragment {
         this.rv_product.setAdapter(this.productAdapter);
 
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1500);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFipper();
             this.getDataProductJson();
             this.btn_homeIphone.setOnClickListener(new View.OnClickListener() {

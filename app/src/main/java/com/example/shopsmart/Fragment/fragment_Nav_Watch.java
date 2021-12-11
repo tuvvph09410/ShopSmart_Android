@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shopsmart.Adapter.ProductWatchAdapter;
+import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
@@ -53,7 +54,7 @@ public class fragment_Nav_Watch extends Fragment {
     private ImageView ivFlipperWatch;
     private ProductWatchAdapter productWatchAdapter;
     private RecyclerView mRecyclerViewWatch;
-
+    private loadingDialog_ProgressBar dialog_progressBar;
     public fragment_Nav_Watch() {
         // Required empty public constructor
     }
@@ -85,8 +86,21 @@ public class fragment_Nav_Watch extends Fragment {
         this.mRecyclerViewWatch.setHasFixedSize(true);
         this.mRecyclerViewWatch.setLayoutManager(new GridLayoutManager(getContext(), 2));
         this.mRecyclerViewWatch.setAdapter(this.productWatchAdapter);
-
+        this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
         if (CheckConnected.haveNetworkConnection(getContext())) {
+            this.dialog_progressBar.startLoading_DialogProgressBar();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        dialog_progressBar.dismissLoading_DialogProgressBar();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
             this.showViewFlipperWatch();
             this.postDataByIDcategoryProduct(this.position_Watch);
         }
