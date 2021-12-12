@@ -41,13 +41,7 @@ import java.util.Map;
 
 public class fragment_Nav_Earphone extends Fragment {
     private int position_Earphone;
-    private int id = 0;
-    private String name = null;
-    private int idCategory = 0;
-    private int price = 0;
-    private String urlImage = null;
-    private String description = null;
-    private int active = 0;
+
     private List<Product> productList;
     private ViewFlipper flipperEarphone;
     private List<String> vFlipperEarphoneList;
@@ -140,13 +134,13 @@ public class fragment_Nav_Earphone extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                             productList.add(product);
                             productEarphoneAdapter.notifyDataSetChanged();

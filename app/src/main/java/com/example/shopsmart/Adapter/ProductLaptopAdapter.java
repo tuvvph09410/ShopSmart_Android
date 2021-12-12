@@ -24,6 +24,7 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
     public ProductLaptopAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
+
     }
 
 

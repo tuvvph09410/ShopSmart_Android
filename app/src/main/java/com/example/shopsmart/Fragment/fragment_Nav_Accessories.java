@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -27,6 +28,7 @@ import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,13 +43,6 @@ import java.util.Map;
 
 public class fragment_Nav_Accessories extends Fragment {
     private int position_Accessories;
-    private int id = 0;
-    private String name = null;
-    private int idCategory = 0;
-    private int price = 0;
-    private String urlImage = null;
-    private String description = null;
-    private int active = 0;
     private List<Product> productList;
     private ViewFlipper flipperAccessories;
     private List<String> vFlipperAccessoriesList;
@@ -55,6 +50,13 @@ public class fragment_Nav_Accessories extends Fragment {
     private ProductAccessoriesAdapter productAccessoriesAdapter;
     private RecyclerView mRecyclerViewAccessories;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private MaterialButton mbtnAccessoriesIphone, mbtnAccessoriesSamsung, mbtnAccessoriesXiaomi, mbtnAccessoriesAll;
+    private int position_ManufacturerIphone = 1;
+    private int position_ManufacturerSamsung = 2;
+    private int positon_ManufacturerXiaomi = 3;
+    private ImageView ivAccessoriesNotifyEmpty;
+    private TextView tvAccessoriesNotifyEmpty;
+
 
     public fragment_Nav_Accessories() {
         // Required empty public constructor
@@ -83,6 +85,13 @@ public class fragment_Nav_Accessories extends Fragment {
 
         this.flipperAccessories = view.findViewById(R.id.vf_slideAccessories);
         this.mRecyclerViewAccessories = view.findViewById(R.id.rv_Accessories);
+        this.mbtnAccessoriesAll = view.findViewById(R.id.btn_AccessoriesAll);
+        this.mbtnAccessoriesIphone = view.findViewById(R.id.btn_AccessoriesIphone);
+        this.mbtnAccessoriesSamsung = view.findViewById(R.id.btn_AccessoriesSamsung);
+        this.mbtnAccessoriesXiaomi = view.findViewById(R.id.btn_AccessoriesXiaomi);
+        this.ivAccessoriesNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvAccessoriesNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
         this.productAccessoriesAdapter = new ProductAccessoriesAdapter(getContext(), this.productList);
         this.mRecyclerViewAccessories.setHasFixedSize(true);
         this.mRecyclerViewAccessories.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -106,6 +115,87 @@ public class fragment_Nav_Accessories extends Fragment {
             }).start();
             this.showViewFlipperAccessories();
             this.postDataByIDcategoryProduct(this.position_Accessories);
+            this.mbtnAccessoriesAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    postDataByIDcategoryProduct(position_Accessories);
+                    if (productAccessoriesAdapter.getItemCount() == 0) {
+                        ivAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setText("Chưa có sản phẩm");
+                        mRecyclerViewAccessories.setVisibility(View.GONE);
+
+                    } else {
+
+                        ivAccessoriesNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewAccessories.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+                }
+            });
+            this.mbtnAccessoriesIphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Accessories, position_ManufacturerIphone);
+                    if (productAccessoriesAdapter.getItemCount() == 0) {
+                        ivAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setText("Thương hiệu Iphone chưa có sản phẩm");
+                        mRecyclerViewAccessories.setVisibility(View.GONE);
+
+                    } else {
+
+                        ivAccessoriesNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewAccessories.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+
+                }
+            });
+            this.mbtnAccessoriesSamsung.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Accessories, position_ManufacturerSamsung);
+                    if (productAccessoriesAdapter.getItemCount() == 0) {
+                        ivAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setText("Thương hiệu Samsung chưa có sản phẩm");
+                        mRecyclerViewAccessories.setVisibility(View.GONE);
+
+                    } else {
+
+                        ivAccessoriesNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewAccessories.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+                }
+            });
+            this.mbtnAccessoriesXiaomi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Accessories, positon_ManufacturerXiaomi);
+                    if (productAccessoriesAdapter.getItemCount() == 0) {
+                        ivAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                        mRecyclerViewAccessories.setVisibility(View.GONE);
+
+                    } else {
+                        ivAccessoriesNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewAccessories.setVisibility(View.VISIBLE);
+                        tvAccessoriesNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+
+                }
+            });
         }
         return view;
     }
@@ -144,13 +234,13 @@ public class fragment_Nav_Accessories extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                             productList.add(product);
                             productAccessoriesAdapter.notifyDataSetChanged();
@@ -176,6 +266,47 @@ public class fragment_Nav_Accessories extends Fragment {
             }
         };
 
+        requestQueue.add(stringRequest);
+    }
+    private void getDataByIDCategoryANDManufacturerProduct(int position_Accessories, int position_Manufacturer) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("idProduct");
+                        String name = jsonObject.getString("name");
+                        int idCategory = jsonObject.getInt("idCategory");
+                        int price = jsonObject.getInt("price");
+                        String urlImage = jsonObject.getString("urlImage");
+                        String description = jsonObject.getString("description");
+                        int active = jsonObject.getInt("active");
+                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        productList.add(product);
+                        productAccessoriesAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> getParam = new HashMap<>();
+                getParam.put("categoryID", String.valueOf(position_Accessories));
+                getParam.put("manufacturerID", String.valueOf(position_Manufacturer));
+                return getParam;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }

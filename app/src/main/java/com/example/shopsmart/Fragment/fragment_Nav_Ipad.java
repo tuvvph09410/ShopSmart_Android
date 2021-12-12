@@ -2,16 +2,19 @@ package com.example.shopsmart.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -29,6 +32,7 @@ import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -43,20 +47,20 @@ import java.util.Map;
 
 public class fragment_Nav_Ipad extends Fragment {
     private int position_Ipad;
-    private int id = 0;
-    private String name = null;
-    private int idCategory = 0;
-    private int price = 0;
-    private String urlImage = null;
-    private String description = null;
-    private int active = 0;
     private List<Product> productList;
     private ViewFlipper flipperIpad;
     private List<String> vFlipperIpadList;
     private ImageView ivFlipperIpad;
     private ProductIpadAdapter productIpadAdapter;
     private RecyclerView mRecyclerViewIpad;
+    private MaterialButton mbtnIpadIphone, mbtnIpadSamsung, mbtnIpadXiaomi, mbtnIpadAll;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private int position_ManufacturerIphone = 1;
+    private int position_ManufacturerSamsung = 2;
+    private int positon_ManufacturerXiaomi = 3;
+    private ImageView ivIpadNotifyEmpty;
+    private TextView tvIpadNotifyEmpty;
+
     public fragment_Nav_Ipad() {
         // Required empty public constructor
     }
@@ -84,6 +88,13 @@ public class fragment_Nav_Ipad extends Fragment {
 
         this.flipperIpad = view.findViewById(R.id.vf_slideIpad);
         this.mRecyclerViewIpad = view.findViewById(R.id.rv_Ipad);
+        this.mbtnIpadAll = view.findViewById(R.id.btn_IpadAll);
+        this.mbtnIpadIphone = view.findViewById(R.id.btn_IpadIphone);
+        this.mbtnIpadSamsung = view.findViewById(R.id.btn_IpadSamsung);
+        this.mbtnIpadXiaomi = view.findViewById(R.id.btn_IpadXiaomi);
+        this.ivIpadNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvIpadNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
         this.productIpadAdapter = new ProductIpadAdapter(getContext(), this.productList);
         this.mRecyclerViewIpad.setHasFixedSize(true);
         this.mRecyclerViewIpad.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -105,6 +116,84 @@ public class fragment_Nav_Ipad extends Fragment {
             }).start();
             this.showViewFlipperIpad();
             this.postDataByIDcategoryProduct(this.position_Ipad);
+            this.mbtnIpadAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    postDataByIDcategoryProduct(position_Ipad);
+                    if (productIpadAdapter.getItemCount() == 0) {
+                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setText("Chưa có sản phẩm");
+                        mRecyclerViewIpad.setVisibility(View.GONE);
+
+                    } else {
+                        ivIpadNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+                }
+            });
+            this.mbtnIpadIphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerIphone);
+                    if (productIpadAdapter.getItemCount() == 0) {
+                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setText("Thương hiệu Iphone chưa có sản phẩm");
+                        mRecyclerViewIpad.setVisibility(View.GONE);
+
+                    } else {
+                        ivIpadNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+
+                }
+            });
+            this.mbtnIpadSamsung.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerSamsung);
+                    if (productIpadAdapter.getItemCount() == 0) {
+                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setText("Thương hiệu Samsung chưa có sản phẩm");
+                        mRecyclerViewIpad.setVisibility(View.GONE);
+
+                    } else {
+                        ivIpadNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+                }
+            });
+            this.mbtnIpadXiaomi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Ipad, positon_ManufacturerXiaomi);
+                    if (productIpadAdapter.getItemCount() == 0) {
+                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                        mRecyclerViewIpad.setVisibility(View.GONE);
+
+                    } else {
+                        ivIpadNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.GONE);
+
+                    }
+
+                }
+            });
         }
         return view;
     }
@@ -139,13 +228,13 @@ public class fragment_Nav_Ipad extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                             productList.add(product);
                             productIpadAdapter.notifyDataSetChanged();
@@ -171,6 +260,48 @@ public class fragment_Nav_Ipad extends Fragment {
             }
         };
 
+        requestQueue.add(stringRequest);
+    }
+
+    private void getDataByIDCategoryANDManufacturerProduct(int position_Ipad, int position_Manufacturer) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("idProduct");
+                        String name = jsonObject.getString("name");
+                        int idCategory = jsonObject.getInt("idCategory");
+                        int price = jsonObject.getInt("price");
+                        String urlImage = jsonObject.getString("urlImage");
+                        String description = jsonObject.getString("description");
+                        int active = jsonObject.getInt("active");
+                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        productList.add(product);
+                        productIpadAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> getParam = new HashMap<>();
+                getParam.put("categoryID", String.valueOf(position_Ipad));
+                getParam.put("manufacturerID", String.valueOf(position_Manufacturer));
+                return getParam;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }

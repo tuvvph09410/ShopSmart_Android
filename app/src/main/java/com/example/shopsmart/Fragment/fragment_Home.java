@@ -49,13 +49,7 @@ public class fragment_Home extends Fragment {
     private ViewFlipper viewFlipper;
     private List<String> listViewFlopper;
     private ImageView imageViewFlopper;
-    private int id = 0;
-    private String name = null;
-    private int idCategory = 0;
-    private int price = 0;
-    private String urlImage = null;
-    private String description = null;
-    private int active = 0;
+
     private List<Product> productList;
     private ProductAdapter productAdapter;
     private RecyclerView rv_product;
@@ -121,7 +115,6 @@ public class fragment_Home extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataManufacturerProduct(positionIphone_Manufacturer);
-
                 }
             });
             this.btn_homeSamsung.setOnClickListener(new View.OnClickListener() {
@@ -180,13 +173,13 @@ public class fragment_Home extends Fragment {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             if (price > 10000000) {
                                 Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                                 productList.add(product);
@@ -221,13 +214,13 @@ public class fragment_Home extends Fragment {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             if (price > 10000000) {
                                 Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                                 productList.add(product);
