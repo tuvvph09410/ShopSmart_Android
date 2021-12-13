@@ -61,11 +61,14 @@ public class fragment_Nav_Iphone extends Fragment {
     private ImageView ivFlipperSmartPhone;
     private ProductSmartPhoneAdapter productSmartPhoneAdapter;
     private RecyclerView mRecyclerViewSmartPhone;
-    private MaterialButton mbtn_navIphone_SmartPhone, mbtn_navSamsung_SmartPhone, mbtn_navXiaomi_SmartPhone,mbtn_navAll_SmartPhone;
+    private MaterialButton mbtn_navIphone_SmartPhone, mbtn_navSamsung_SmartPhone, mbtn_navXiaomi_SmartPhone, mbtn_navAll_SmartPhone;
     private int position_Manufacturer_Iphone = 1;
     private int position_Manufacturer_Samsung = 2;
     private int position_Manufacturer_Xiaomi = 3;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private ImageView ivSmartPhoneNotifyEmpty;
+    private TextView tvSmartPhoneNotifyEmpty;
+
     public fragment_Nav_Iphone() {
         // Required empty public constructor
     }
@@ -95,7 +98,9 @@ public class fragment_Nav_Iphone extends Fragment {
         this.mbtn_navIphone_SmartPhone = view.findViewById(R.id.btn_smartPhoneIphone);
         this.mbtn_navSamsung_SmartPhone = view.findViewById(R.id.btn_smartPhoneSamsung);
         this.mbtn_navXiaomi_SmartPhone = view.findViewById(R.id.btn_smartPhoneXiaomi);
-        this.mbtn_navAll_SmartPhone=view.findViewById(R.id.btn_allSmartPhone);
+        this.mbtn_navAll_SmartPhone = view.findViewById(R.id.btn_allSmartPhone);
+        this.ivSmartPhoneNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvSmartPhoneNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
 
         this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
 
@@ -181,6 +186,9 @@ public class fragment_Nav_Iphone extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response != null) {
+                    ivSmartPhoneNotifyEmpty.setVisibility(View.GONE);
+                    mRecyclerViewSmartPhone.setVisibility(View.VISIBLE);
+                    tvSmartPhoneNotifyEmpty.setVisibility(View.GONE);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -200,6 +208,11 @@ public class fragment_Nav_Iphone extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    ivSmartPhoneNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvSmartPhoneNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvSmartPhoneNotifyEmpty.setText("Chưa có sản phẩm");
+                    mRecyclerViewSmartPhone.setVisibility(View.GONE);
                 }
 
             }
@@ -227,6 +240,11 @@ public class fragment_Nav_Iphone extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() > 0) {
+                        ivSmartPhoneNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewSmartPhone.setVisibility(View.VISIBLE);
+                        tvSmartPhoneNotifyEmpty.setVisibility(View.GONE);
+                    }
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int id = jsonObject.getInt("idProduct");
@@ -248,6 +266,16 @@ public class fragment_Nav_Iphone extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 CheckConnected.ShowToastLong(getContext(), error.toString());
+                ivSmartPhoneNotifyEmpty.setVisibility(View.VISIBLE);
+                tvSmartPhoneNotifyEmpty.setVisibility(View.VISIBLE);
+                if (position_Manufacturer_Phone == 1) {
+                    tvSmartPhoneNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                } else if (position_Manufacturer_Phone == 2) {
+                    tvSmartPhoneNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                } else {
+                    tvSmartPhoneNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                }
+                mRecyclerViewSmartPhone.setVisibility(View.GONE);
             }
         }) {
             @Override

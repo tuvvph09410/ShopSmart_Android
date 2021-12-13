@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -27,6 +28,7 @@ import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,6 +51,13 @@ public class fragment_Nav_Applecare extends Fragment {
     private ProductApplecareAdapter productApplecareAdapter;
     private RecyclerView mRecyclerViewApplecare;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private MaterialButton mbtnApplecareIphone, mbtnApplecareSamsung, mbtnApplecareXiaomi, mbtnApplecareAll;
+
+    private int position_ManufacturerIphone = 1;
+    private int position_ManufacturerSamsung = 2;
+    private int positon_ManufacturerXiaomi = 3;
+    private ImageView ivApplecareNotifyEmpty;
+    private TextView tvApplecareNotifyEmpty;
     public fragment_Nav_Applecare() {
         // Required empty public constructor
     }
@@ -76,6 +85,13 @@ public class fragment_Nav_Applecare extends Fragment {
 
         this.flipperApplecare = view.findViewById(R.id.vf_slideApplecare);
         this.mRecyclerViewApplecare = view.findViewById(R.id.rv_Applecare);
+        this.mbtnApplecareAll = view.findViewById(R.id.btn_ApplecareAll);
+        this.mbtnApplecareIphone = view.findViewById(R.id.btn_ApplecareIphone);
+        this.mbtnApplecareSamsung = view.findViewById(R.id.btn_ApplecareSamsung);
+        this.mbtnApplecareXiaomi = view.findViewById(R.id.btn_ApplecareXiaomi);
+        this.ivApplecareNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvApplecareNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
         this.productApplecareAdapter = new ProductApplecareAdapter(getContext(), this.productList);
         this.mRecyclerViewApplecare.setHasFixedSize(true);
         this.mRecyclerViewApplecare.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -99,6 +115,35 @@ public class fragment_Nav_Applecare extends Fragment {
             }).start();
             this.showViewFlipperApplecare();
             this.postDataByIDcategoryProduct(this.position_Applecare);
+            this.mbtnApplecareAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    postDataByIDcategoryProduct(position_Applecare);
+                }
+            });
+            this.mbtnApplecareIphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Applecare, position_ManufacturerIphone);
+                }
+            });
+            this.mbtnApplecareSamsung.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Applecare, position_ManufacturerSamsung);
+                }
+            });
+            this.mbtnApplecareXiaomi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Applecare, positon_ManufacturerXiaomi);
+
+                }
+            });
         }
         return view;
     }
@@ -129,6 +174,9 @@ public class fragment_Nav_Applecare extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response != null) {
+                    ivApplecareNotifyEmpty.setVisibility(View.GONE);
+                    mRecyclerViewApplecare.setVisibility(View.VISIBLE);
+                    tvApplecareNotifyEmpty.setVisibility(View.GONE);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -148,6 +196,11 @@ public class fragment_Nav_Applecare extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    ivApplecareNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvApplecareNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvApplecareNotifyEmpty.setText("Chưa có sản phẩm");
+                    mRecyclerViewApplecare.setVisibility(View.GONE);
                 }
 
             }
@@ -165,6 +218,62 @@ public class fragment_Nav_Applecare extends Fragment {
             }
         };
 
+        requestQueue.add(stringRequest);
+    }
+    private void getDataByIDCategoryANDManufacturerProduct(int position_Applecare, int position_Manufacturer) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() > 0) {
+                        ivApplecareNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewApplecare.setVisibility(View.VISIBLE);
+                        tvApplecareNotifyEmpty.setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("idProduct");
+                        String name = jsonObject.getString("name");
+                        int idCategory = jsonObject.getInt("idCategory");
+                        int price = jsonObject.getInt("price");
+                        String urlImage = jsonObject.getString("urlImage");
+                        String description = jsonObject.getString("description");
+                        int active = jsonObject.getInt("active");
+                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        productList.add(product);
+                        productApplecareAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ivApplecareNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvApplecareNotifyEmpty.setVisibility(View.VISIBLE);
+                    if (position_Manufacturer == 1) {
+                        tvApplecareNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                    } else if (position_Manufacturer == 2) {
+                        tvApplecareNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                    } else {
+                        tvApplecareNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                    }
+                    mRecyclerViewApplecare.setVisibility(View.GONE);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> getParam = new HashMap<>();
+                getParam.put("categoryID", String.valueOf(position_Applecare));
+                getParam.put("manufacturerID", String.valueOf(position_Manufacturer));
+                return getParam;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }

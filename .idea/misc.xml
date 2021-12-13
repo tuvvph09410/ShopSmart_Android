@@ -24,11 +24,13 @@
         <entry key="app/src/main/res/layout/fragment_fullscreen.xml" value="0.11094224924012158" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/fragment_nav_accessories.xml" value="0.11803444782168186" />
+        <entry key="app/src/main/res/layout/fragment_nav_applecare.xml" value="0.12952898550724637" />
         <entry key="app/src/main/res/layout/fragment_nav_applewatch.xml" value="0.11803444782168186" />
         <entry key="app/src/main/res/layout/fragment_nav_earphone.xml" value="0.11803444782168186" />
         <entry key="app/src/main/res/layout/fragment_nav_ipad.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_nav_iphone.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_nav_laptop.xml" value="0.35075885328836426" />
+        <entry key="app/src/main/res/layout/fragment_nav_laptop.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_nav_watch.xml" value="0.12952898550724637" />
         <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/item_recyclerview_accessories_product.xml" value="0.11803444782168186" />

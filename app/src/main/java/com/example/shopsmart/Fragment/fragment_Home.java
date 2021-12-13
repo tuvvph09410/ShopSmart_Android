@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -60,6 +61,8 @@ public class fragment_Home extends Fragment {
     private int positionSamsung_Manufacturer = 2;
     private int positionXiaomi_Manufacturer = 3;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private ImageView ivhomeNotifyEmpty;
+    private TextView tvhomeNotifyEmpty;
 
     public fragment_Home() {
         // Required empty public constructor
@@ -85,7 +88,8 @@ public class fragment_Home extends Fragment {
         this.btn_homeIphone = view.findViewById(R.id.btn_homeIphone);
         this.btn_homeSamsung = view.findViewById(R.id.btn_homeSamsung);
         this.btn_homeXiaomi = view.findViewById(R.id.btn_homeXiaomi);
-
+        this.ivhomeNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvhomeNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
         this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
 
         this.productList = new ArrayList<>();
@@ -170,6 +174,9 @@ public class fragment_Home extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 if (response != null) {
+                    ivhomeNotifyEmpty.setVisibility(View.GONE);
+                    rv_product.setVisibility(View.VISIBLE);
+                    tvhomeNotifyEmpty.setVisibility(View.GONE);
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
@@ -187,17 +194,23 @@ public class fragment_Home extends Fragment {
                             }
 
                         } catch (JSONException e) {
-
                             e.printStackTrace();
+
                         }
 
                     }
+                }else {
+                    ivhomeNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvhomeNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvhomeNotifyEmpty.setText("Chưa có sản phẩm");
+                    rv_product.setVisibility(View.GONE);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 CheckConnected.ShowToastLong(getContext(), error.toString());
+
             }
         });
         requestQueue.add(jsonArrayRequest);
@@ -212,6 +225,11 @@ public class fragment_Home extends Fragment {
                 if (response != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
+                        if (jsonArray.length() > 0) {
+                            ivhomeNotifyEmpty.setVisibility(View.GONE);
+                            rv_product.setVisibility(View.VISIBLE);
+                            tvhomeNotifyEmpty.setVisibility(View.GONE);
+                        }
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("idProduct");
@@ -230,6 +248,16 @@ public class fragment_Home extends Fragment {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        ivhomeNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvhomeNotifyEmpty.setVisibility(View.VISIBLE);
+                        if (position_Manufacturer == 1) {
+                            tvhomeNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                        } else if (position_Manufacturer == 2) {
+                            tvhomeNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                        } else {
+                            tvhomeNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                        }
+                        rv_product.setVisibility(View.GONE);
                     }
                 }
             }
@@ -237,6 +265,7 @@ public class fragment_Home extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 CheckConnected.ShowToastLong(getContext(), error.toString());
+
             }
         }) {
             @Override

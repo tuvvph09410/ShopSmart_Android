@@ -132,31 +132,13 @@ public class fragment_Nav_Laptop extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Laptop);
-                    ivLaptopNotifyEmpty.setVisibility(View.GONE);
-                    mRecyclerViewLaptop.setVisibility(View.VISIBLE);
-                    tvLaptopNotifyEmpty.setVisibility(View.GONE);
-
-
                 }
             });
             this.mbtnLaptopIphone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, position_ManufacturerIphone);
-
-                    if (productList.isEmpty()) {
-                        ivLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setText("Thương hiệu Iphone chưa có sản phẩm");
-                        mRecyclerViewLaptop.setVisibility(View.GONE);
-
-                    } else {
-                        ivLaptopNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewLaptop.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.GONE);
-
-                    }
                 }
             });
             this.mbtnLaptopSamsung.setOnClickListener(new View.OnClickListener() {
@@ -164,42 +146,13 @@ public class fragment_Nav_Laptop extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, position_ManufacturerSamsung);
-
-                    if (productLaptopAdapter.getItemCount() == 0) {
-                        ivLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setText("Thương hiệu Samsung chưa có sản phẩm");
-                        mRecyclerViewLaptop.setVisibility(View.GONE);
-
-                    } else {
-                        ivLaptopNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewLaptop.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.GONE);
-
-                    }
-
                 }
             });
             this.mbtnLaptopXiaomi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, positon_ManufacturerXiaomi);
-
-                    Log.e("count",String.valueOf(productLaptopAdapter.getItemCount()));
-                    if (productLaptopAdapter.getItemCount() == 0) {
-                        ivLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
-                        mRecyclerViewLaptop.setVisibility(View.GONE);
-                    } else {
-                        ivLaptopNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewLaptop.setVisibility(View.VISIBLE);
-                        tvLaptopNotifyEmpty.setVisibility(View.GONE);
-
-                    }
-
                 }
             });
         }
@@ -236,8 +189,10 @@ public class fragment_Nav_Laptop extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDCateGory(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 if (response != null) {
+                    ivLaptopNotifyEmpty.setVisibility(View.GONE);
+                    mRecyclerViewLaptop.setVisibility(View.VISIBLE);
+                    tvLaptopNotifyEmpty.setVisibility(View.GONE);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -257,13 +212,18 @@ public class fragment_Nav_Laptop extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    ivLaptopNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvLaptopNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvLaptopNotifyEmpty.setText("Chưa có sản phẩm");
+                    mRecyclerViewLaptop.setVisibility(View.GONE);
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                CheckConnected.ShowToastLong(getContext(), error.toString());
             }
         }) {
             @Override
@@ -283,9 +243,15 @@ public class fragment_Nav_Laptop extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+
+                    Log.e("arrayProduct", String.valueOf(jsonArray.length()));
+                    if (jsonArray.length() > 0) {
+                        ivLaptopNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewLaptop.setVisibility(View.VISIBLE);
+                        tvLaptopNotifyEmpty.setVisibility(View.GONE);
+                    }
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int id = jsonObject.getInt("idProduct");
@@ -301,13 +267,24 @@ public class fragment_Nav_Laptop extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ivLaptopNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvLaptopNotifyEmpty.setVisibility(View.VISIBLE);
+                    if (position_Manufacturer == 1) {
+                        tvLaptopNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                    } else if (position_Manufacturer == 2) {
+                        tvLaptopNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                    } else {
+                        tvLaptopNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                    }
+                    mRecyclerViewLaptop.setVisibility(View.GONE);
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-            CheckConnected.ShowToastLong(getContext(),error.toString());
+                CheckConnected.ShowToastLong(getContext(), error.toString());
+
             }
         }) {
             @Override

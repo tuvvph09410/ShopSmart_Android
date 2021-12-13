@@ -53,8 +53,8 @@ public class fragment_Nav_Ipad extends Fragment {
     private ImageView ivFlipperIpad;
     private ProductIpadAdapter productIpadAdapter;
     private RecyclerView mRecyclerViewIpad;
-    private MaterialButton mbtnIpadIphone, mbtnIpadSamsung, mbtnIpadXiaomi, mbtnIpadAll;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private MaterialButton mbtnIpadIphone, mbtnIpadSamsung, mbtnIpadXiaomi, mbtnIpadAll;
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
@@ -121,18 +121,6 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Ipad);
-                    if (productIpadAdapter.getItemCount() == 0) {
-                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setText("Chưa có sản phẩm");
-                        mRecyclerViewIpad.setVisibility(View.GONE);
-
-                    } else {
-                        ivIpadNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.GONE);
-
-                    }
                 }
             });
             this.mbtnIpadIphone.setOnClickListener(new View.OnClickListener() {
@@ -140,19 +128,6 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerIphone);
-                    if (productIpadAdapter.getItemCount() == 0) {
-                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setText("Thương hiệu Iphone chưa có sản phẩm");
-                        mRecyclerViewIpad.setVisibility(View.GONE);
-
-                    } else {
-                        ivIpadNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.GONE);
-
-                    }
-
                 }
             });
             this.mbtnIpadSamsung.setOnClickListener(new View.OnClickListener() {
@@ -160,18 +135,6 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerSamsung);
-                    if (productIpadAdapter.getItemCount() == 0) {
-                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setText("Thương hiệu Samsung chưa có sản phẩm");
-                        mRecyclerViewIpad.setVisibility(View.GONE);
-
-                    } else {
-                        ivIpadNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.GONE);
-
-                    }
                 }
             });
             this.mbtnIpadXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -179,18 +142,6 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, positon_ManufacturerXiaomi);
-                    if (productIpadAdapter.getItemCount() == 0) {
-                        ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
-                        mRecyclerViewIpad.setVisibility(View.GONE);
-
-                    } else {
-                        ivIpadNotifyEmpty.setVisibility(View.GONE);
-                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
-                        tvIpadNotifyEmpty.setVisibility(View.GONE);
-
-                    }
 
                 }
             });
@@ -224,6 +175,9 @@ public class fragment_Nav_Ipad extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response != null) {
+                    ivIpadNotifyEmpty.setVisibility(View.GONE);
+                    mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                    tvIpadNotifyEmpty.setVisibility(View.GONE);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -243,6 +197,11 @@ public class fragment_Nav_Ipad extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvIpadNotifyEmpty.setText("Chưa có sản phẩm");
+                    mRecyclerViewIpad.setVisibility(View.GONE);
                 }
 
             }
@@ -250,6 +209,7 @@ public class fragment_Nav_Ipad extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+
             }
         }) {
             @Override
@@ -270,6 +230,11 @@ public class fragment_Nav_Ipad extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() > 0) {
+                        ivIpadNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewIpad.setVisibility(View.VISIBLE);
+                        tvIpadNotifyEmpty.setVisibility(View.GONE);
+                    }
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int id = jsonObject.getInt("idProduct");
@@ -285,6 +250,16 @@ public class fragment_Nav_Ipad extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ivIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvIpadNotifyEmpty.setVisibility(View.VISIBLE);
+                    if (position_Manufacturer == 1) {
+                        tvIpadNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                    } else if (position_Manufacturer == 2) {
+                        tvIpadNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                    } else {
+                        tvIpadNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                    }
+                    mRecyclerViewIpad.setVisibility(View.GONE);
                 }
 
             }

@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         this.actionBar = getSupportActionBar();
 
         loadFragment(new fragment_Home());

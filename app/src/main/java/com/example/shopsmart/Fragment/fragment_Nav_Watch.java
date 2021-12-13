@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -27,6 +28,7 @@ import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,13 +43,6 @@ import java.util.Map;
 
 public class fragment_Nav_Watch extends Fragment {
     private int position_Watch;
-    private int id = 0;
-    private String name = null;
-    private int idCategory = 0;
-    private int price = 0;
-    private String urlImage = null;
-    private String description = null;
-    private int active = 0;
     private List<Product> productList;
     private ViewFlipper flipperWatch;
     private List<String> vFlipperWatchList;
@@ -55,6 +50,13 @@ public class fragment_Nav_Watch extends Fragment {
     private ProductWatchAdapter productWatchAdapter;
     private RecyclerView mRecyclerViewWatch;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private MaterialButton mbtnWatchIphone, mbtnWatchSamsung, mbtnWatchXiaomi, mbtnWatchAll;
+    private int position_ManufacturerIphone = 1;
+    private int position_ManufacturerSamsung = 2;
+    private int positon_ManufacturerXiaomi = 3;
+    private ImageView ivWatchNotifyEmpty;
+    private TextView tvWatchNotifyEmpty;
+
     public fragment_Nav_Watch() {
         // Required empty public constructor
     }
@@ -82,6 +84,13 @@ public class fragment_Nav_Watch extends Fragment {
 
         this.flipperWatch = view.findViewById(R.id.vf_slideWatch);
         this.mRecyclerViewWatch = view.findViewById(R.id.rv_Watch);
+        this.mbtnWatchAll = view.findViewById(R.id.btn_WatchAll);
+        this.mbtnWatchIphone = view.findViewById(R.id.btn_WatchIphone);
+        this.mbtnWatchSamsung = view.findViewById(R.id.btn_WatchSamsung);
+        this.mbtnWatchXiaomi = view.findViewById(R.id.btn_WatchXiaomi);
+        this.ivWatchNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvWatchNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
         this.productWatchAdapter = new ProductWatchAdapter(getContext(), this.productList);
         this.mRecyclerViewWatch.setHasFixedSize(true);
         this.mRecyclerViewWatch.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -103,6 +112,35 @@ public class fragment_Nav_Watch extends Fragment {
             }).start();
             this.showViewFlipperWatch();
             this.postDataByIDcategoryProduct(this.position_Watch);
+            this.mbtnWatchAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    postDataByIDcategoryProduct(position_Watch);
+                }
+            });
+            this.mbtnWatchIphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Watch, position_ManufacturerIphone);
+                }
+            });
+            this.mbtnWatchSamsung.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Watch, position_ManufacturerSamsung);
+                }
+            });
+            this.mbtnWatchXiaomi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Watch, positon_ManufacturerXiaomi);
+
+                }
+            });
         }
         return view;
     }
@@ -136,17 +174,20 @@ public class fragment_Nav_Watch extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response != null) {
+                    ivWatchNotifyEmpty.setVisibility(View.GONE);
+                    mRecyclerViewWatch.setVisibility(View.VISIBLE);
+                    tvWatchNotifyEmpty.setVisibility(View.GONE);
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            id = jsonObject.getInt("idProduct");
-                            name = jsonObject.getString("name");
-                            idCategory = jsonObject.getInt("idCategory");
-                            price = jsonObject.getInt("price");
-                            urlImage = jsonObject.getString("urlImage");
-                            description = jsonObject.getString("description");
-                            active = jsonObject.getInt("active");
+                            int id = jsonObject.getInt("idProduct");
+                            String name = jsonObject.getString("name");
+                            int idCategory = jsonObject.getInt("idCategory");
+                            int price = jsonObject.getInt("price");
+                            String urlImage = jsonObject.getString("urlImage");
+                            String description = jsonObject.getString("description");
+                            int active = jsonObject.getInt("active");
                             Product product = new Product(id, name, idCategory, price, urlImage, description, active);
                             productList.add(product);
                             productWatchAdapter.notifyDataSetChanged();
@@ -154,7 +195,13 @@ public class fragment_Nav_Watch extends Fragment {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
                     }
+                } else {
+                    ivWatchNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvWatchNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvWatchNotifyEmpty.setText("Chưa có sản phẩm");
+                    mRecyclerViewWatch.setVisibility(View.GONE);
                 }
 
             }
@@ -172,6 +219,63 @@ public class fragment_Nav_Watch extends Fragment {
             }
         };
 
+        requestQueue.add(stringRequest);
+    }
+
+    private void getDataByIDCategoryANDManufacturerProduct(int position_Watch, int position_Manufacturer) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() > 0) {
+                        ivWatchNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewWatch.setVisibility(View.VISIBLE);
+                        tvWatchNotifyEmpty.setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("idProduct");
+                        String name = jsonObject.getString("name");
+                        int idCategory = jsonObject.getInt("idCategory");
+                        int price = jsonObject.getInt("price");
+                        String urlImage = jsonObject.getString("urlImage");
+                        String description = jsonObject.getString("description");
+                        int active = jsonObject.getInt("active");
+                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        productList.add(product);
+                        productWatchAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ivWatchNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvWatchNotifyEmpty.setVisibility(View.VISIBLE);
+                    if (position_Manufacturer == 1) {
+                        tvWatchNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                    } else if (position_Manufacturer == 2) {
+                        tvWatchNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                    } else {
+                        tvWatchNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                    }
+                    mRecyclerViewWatch.setVisibility(View.GONE);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> getParam = new HashMap<>();
+                getParam.put("categoryID", String.valueOf(position_Watch));
+                getParam.put("manufacturerID", String.valueOf(position_Manufacturer));
+                return getParam;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }

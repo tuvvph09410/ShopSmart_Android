@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -27,6 +28,7 @@ import com.example.shopsmart.Entity.Product;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,6 +51,13 @@ public class fragment_Nav_Earphone extends Fragment {
     private ProductEarphoneAdapter productEarphoneAdapter;
     private RecyclerView mRecyclerViewEarphone;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private MaterialButton mbtnEarphoneIphone, mbtnEarphoneSamsung, mbtnEarphoneXiaomi, mbtnEarphoneAll;
+    private int position_ManufacturerIphone = 1;
+    private int position_ManufacturerSamsung = 2;
+    private int positon_ManufacturerXiaomi = 3;
+    private ImageView ivEarphoneNotifyEmpty;
+    private TextView tvEarphoneNotifyEmpty;
+
     public fragment_Nav_Earphone() {
         // Required empty public constructor
     }
@@ -76,6 +85,14 @@ public class fragment_Nav_Earphone extends Fragment {
 
         this.flipperEarphone = view.findViewById(R.id.vf_slideEarphone);
         this.mRecyclerViewEarphone = view.findViewById(R.id.rv_Earphone);
+        this.mbtnEarphoneAll = view.findViewById(R.id.btn_EarphoneAll);
+        this.mbtnEarphoneIphone = view.findViewById(R.id.btn_EarphoneIphone);
+        this.mbtnEarphoneSamsung = view.findViewById(R.id.btn_EarphoneSamsung);
+        this.mbtnEarphoneXiaomi = view.findViewById(R.id.btn_EarphoneXiaomi);
+        this.ivEarphoneNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
+        this.tvEarphoneNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
+
         this.productEarphoneAdapter = new ProductEarphoneAdapter(getContext(), this.productList);
         this.mRecyclerViewEarphone.setHasFixedSize(true);
         this.mRecyclerViewEarphone.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -97,6 +114,35 @@ public class fragment_Nav_Earphone extends Fragment {
             }).start();
             this.showViewFlipperEarphone();
             this.postDataByIDcategoryProduct(this.position_Earphone);
+            this.mbtnEarphoneAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    postDataByIDcategoryProduct(position_Earphone);
+                }
+            });
+            this.mbtnEarphoneIphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Earphone, position_ManufacturerIphone);
+                }
+            });
+            this.mbtnEarphoneSamsung.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Earphone, position_ManufacturerSamsung);
+                }
+            });
+            this.mbtnEarphoneXiaomi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    productList.clear();
+                    getDataByIDCategoryANDManufacturerProduct(position_Earphone, positon_ManufacturerXiaomi);
+
+                }
+            });
         }
         return view;
     }
@@ -132,6 +178,11 @@ public class fragment_Nav_Earphone extends Fragment {
                 if (response != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
+                        if (jsonArray.length() > 0) {
+                            ivEarphoneNotifyEmpty.setVisibility(View.GONE);
+                            mRecyclerViewEarphone.setVisibility(View.VISIBLE);
+                            tvEarphoneNotifyEmpty.setVisibility(View.GONE);
+                        }
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("idProduct");
@@ -148,6 +199,13 @@ public class fragment_Nav_Earphone extends Fragment {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
+                        ivEarphoneNotifyEmpty.setVisibility(View.VISIBLE);
+                        tvEarphoneNotifyEmpty.setVisibility(View.VISIBLE);
+
+                        tvEarphoneNotifyEmpty.setText("Chưa có sản phẩm");
+
+                        mRecyclerViewEarphone.setVisibility(View.GONE);
                     }
                 }
 
@@ -166,6 +224,63 @@ public class fragment_Nav_Earphone extends Fragment {
             }
         };
 
+        requestQueue.add(stringRequest);
+    }
+
+    private void getDataByIDCategoryANDManufacturerProduct(int position_Earphone, int position_Manufacturer) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() > 0) {
+                        ivEarphoneNotifyEmpty.setVisibility(View.GONE);
+                        mRecyclerViewEarphone.setVisibility(View.VISIBLE);
+                        tvEarphoneNotifyEmpty.setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("idProduct");
+                        String name = jsonObject.getString("name");
+                        int idCategory = jsonObject.getInt("idCategory");
+                        int price = jsonObject.getInt("price");
+                        String urlImage = jsonObject.getString("urlImage");
+                        String description = jsonObject.getString("description");
+                        int active = jsonObject.getInt("active");
+                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        productList.add(product);
+                        productEarphoneAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ivEarphoneNotifyEmpty.setVisibility(View.VISIBLE);
+                    tvEarphoneNotifyEmpty.setVisibility(View.VISIBLE);
+                    if (position_Manufacturer == 1) {
+                        tvEarphoneNotifyEmpty.setText("Thương hiệu iphone chưa có sản phẩm");
+                    } else if (position_Manufacturer == 2) {
+                        tvEarphoneNotifyEmpty.setText("Thương hiệu samsung chưa có sản phẩm");
+                    } else {
+                        tvEarphoneNotifyEmpty.setText("Thương hiệu Xiaomi chưa có sản phẩm");
+                    }
+                    mRecyclerViewEarphone.setVisibility(View.GONE);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> getParam = new HashMap<>();
+                getParam.put("categoryID", String.valueOf(position_Earphone));
+                getParam.put("manufacturerID", String.valueOf(position_Manufacturer));
+                return getParam;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }

@@ -90,6 +90,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp" />
+        <ImageView
+            android:id="@+id/iv_NotifyEmpty"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_error_24"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_NotifyEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/textview_bordererror"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Thương hiệu này chưa có sản phẩm"
+            android:textColor="#F20"
+            android:textSize="14dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 
