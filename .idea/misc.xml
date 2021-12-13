@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/drawable/item_selected.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/textview_border.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/textview_bordererror.xml" value="0.2276923076923077" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.11094224924012158" />
         <entry key="app/src/main/res/layout/dialog_progressbar.xml" value="0.375" />

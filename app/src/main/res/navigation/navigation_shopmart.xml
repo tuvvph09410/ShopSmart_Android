@@ -72,4 +72,29 @@
             android:id="@+id/action_fragment_Nav_Ipad_to_mainActivity"
             app:destination="@id/mainActivity" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_Nav_Accessories"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Accessories"
+        android:label="fragment_nav_accessories"
+        tools:layout="@layout/fragment_nav_accessories" />
+    <fragment
+        android:id="@+id/fragment_Nav_Applecare"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Applecare"
+        android:label="fragment_nav_applecare"
+        tools:layout="@layout/fragment_nav_applecare" />
+    <fragment
+        android:id="@+id/fragment_Nav_Earphone"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Earphone"
+        android:label="fragment_nav_earphone"
+        tools:layout="@layout/fragment_nav_earphone" />
+    <fragment
+        android:id="@+id/fragment_Nav_Laptop"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Laptop"
+        android:label="fragment_nav_laptop"
+        tools:layout="@layout/fragment_nav_laptop" />
+    <fragment
+        android:id="@+id/fragment_Nav_Watch"
+        android:name="com.example.shopsmart.Fragment.fragment_Nav_Watch"
+        android:label="fragment_nav_watch"
+        tools:layout="@layout/fragment_nav_watch" />
 </navigation>
