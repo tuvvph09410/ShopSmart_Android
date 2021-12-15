@@ -2,54 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="horizontal"
     android:weightSum="10">
-<LinearLayout
-    android:layout_margin="7dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="10dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+         android:layout_margin="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5">
 
-        <ImageView
-            android:id="@+id/iv_item_menu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="2dp" />
+                <ImageView
+                    android:id="@+id/iv_item_menu"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="2dp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="7.5"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7.5"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_item_menu_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="5dp"
-            android:padding="2dp"
-            android:text="Iphone"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#4d4d4d"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_item_menu_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="1dp"
+                    android:padding="1dp"
+                    android:text="Iphone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#4d4d4d"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_item_menu_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="iPhone 13 Pro Max, iPhone 13 Pro,iPhone 13"
-            android:textColor="#bcbcbd"
-            android:textSize="10dp" />
-    </LinearLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/tv_item_menu_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="iPhone 13 Pro Max, iPhone 13 Pro,iPhone 13"
+                    android:textColor="#bcbcbd"
+                    android:textSize="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

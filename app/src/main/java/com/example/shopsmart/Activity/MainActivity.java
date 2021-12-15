@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -70,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_NAV_ACCESSORIES = 8;
     private static final int FRAGMENT_NAV_EARPHONE = 9;
     private static final int FRAGMENT_NAV_APPLECARE = 10;
-    private static final int FRAGMENT_NAV_WATCH = 1;
-
+    private static final int FRAGMENT_NAV_WATCH = 11;
+   
     private int currentFragment = FRAGMENT_HOME;
 
 
@@ -180,18 +181,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.nav_home:
                     openHomeFragment();
                     bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+
                     break;
                 case R.id.nav_local_store:
                     openStoreFragment();
                     bottomNavigationView.getMenu().findItem(R.id.nav_local_store).setChecked(true);
+
                     break;
                 case R.id.nav_payment:
                     openPaymentFragment();
                     bottomNavigationView.getMenu().findItem(R.id.nav_payment).setChecked(true);
+
                     break;
                 case R.id.nav_account:
                     openAccountFragment();
                     bottomNavigationView.getMenu().findItem(R.id.nav_account).setChecked(true);
+
                     break;
             }
             return true;
@@ -244,13 +249,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
+
+
                     for (int i = 0; i <= lv_menuItem.getChildCount(); i++) {
                         if (position == i) {
-                            lv_menuItem.getChildAt(i).setBackgroundColor(Color.parseColor("#d0d0d6"));
+                            lv_menuItem.getChildAt(i).setBackgroundColor(Color.parseColor("#ecc8ff"));
                         } else {
                             lv_menuItem.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                         }
                     }
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -258,92 +267,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 0:
                         openHomeFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        navigationView.setCheckedItem(position);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 1:
-                        if (currentFragment != FRAGMENT_NAV_PHONE) {
-                            fragment_Nav_Iphone fragmentIphone = new fragment_Nav_Iphone();
-                            Bundle bundleIphone = new Bundle();
-                            bundleIphone.putInt("positionPhone", position);
-                            fragmentIphone.setArguments(bundleIphone);
-                            loadFragment(fragmentIphone);
-                            currentFragment = FRAGMENT_NAV_PHONE;
-                        }
+                        openPhoneFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         navigationView.setCheckedItem(position);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 2:
-                        if (currentFragment != FRAGMENT_NAV_TABLE) {
-                            fragment_Nav_Ipad fragmentNavIpad = new fragment_Nav_Ipad();
-                            Bundle bundleIpad = new Bundle();
-                            bundleIpad.putInt("positionIpad", position);
-                            fragmentNavIpad.setArguments(bundleIpad);
-                            loadFragment(fragmentNavIpad);
-                            currentFragment = FRAGMENT_NAV_TABLE;
-                        }
+                        openIpadFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 3:
-                        if (currentFragment != FRAGMENT_NAV_LAPTOP) {
-                            fragment_Nav_Laptop fragmentNavLaptop = new fragment_Nav_Laptop();
-                            Bundle bundleLaptop = new Bundle();
-                            bundleLaptop.putInt("positionLaptop", position);
-                            fragmentNavLaptop.setArguments(bundleLaptop);
-                            loadFragment(fragmentNavLaptop);
-                            currentFragment = FRAGMENT_NAV_LAPTOP;
-                        }
+                        openLaptopFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 4:
-                        if (currentFragment != FRAGMENT_NAV_ACCESSORIES) {
-                            fragment_Nav_Accessories fragmentNavAccessories = new fragment_Nav_Accessories();
-                            Bundle bundleAccessories = new Bundle();
-                            bundleAccessories.putInt("positionAccessories", position);
-                            fragmentNavAccessories.setArguments(bundleAccessories);
-
-                            loadFragment(fragmentNavAccessories);
-                            currentFragment = FRAGMENT_NAV_ACCESSORIES;
-                        }
+                        openAccessoriesFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 5:
-                        if (currentFragment != FRAGMENT_NAV_EARPHONE) {
-                            fragment_Nav_Earphone fragmentNavEarphone = new fragment_Nav_Earphone();
-                            Bundle bundleEarphone = new Bundle();
-                            bundleEarphone.putInt("positionEarphone", position);
-                            fragmentNavEarphone.setArguments(bundleEarphone);
-                            loadFragment(fragmentNavEarphone);
-                            currentFragment = FRAGMENT_NAV_EARPHONE;
-                        }
+                        openEarphoneFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 6:
-                        if (currentFragment != FRAGMENT_NAV_APPLECARE) {
-                            fragment_Nav_Applecare fragmentNavApplecare = new fragment_Nav_Applecare();
-                            Bundle bundleApplecare = new Bundle();
-                            bundleApplecare.putInt("positionApplecare", 8);
-                            fragmentNavApplecare.setArguments(bundleApplecare);
-                            loadFragment(fragmentNavApplecare);
-                            currentFragment = FRAGMENT_NAV_APPLECARE;
-                        }
+                        openApplecareFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 7:
-                        if (currentFragment != FRAGMENT_NAV_WATCH) {
-                            fragment_Nav_Watch fragmentNavWatch = new fragment_Nav_Watch();
-                            Bundle bundleWatch = new Bundle();
-                            bundleWatch.putInt("positionWatch", 9);
-                            fragmentNavWatch.setArguments(bundleWatch);
-                            loadFragment(fragmentNavWatch);
-                            currentFragment = FRAGMENT_NAV_WATCH;
-                        }
+                        openWatchFragment();
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
@@ -356,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (this.currentFragment != this.FRAGMENT_HOME) {
             this.loadFragment(new fragment_Home());
             this.currentFragment = this.FRAGMENT_HOME;
+
         }
     }
 
@@ -377,6 +336,85 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (this.currentFragment != this.FRAGMENT_ACCOUNT) {
             this.loadFragment(new fragment_Account());
             this.currentFragment = this.FRAGMENT_ACCOUNT;
+        }
+    }
+
+    private void openPhoneFragment() {
+        if (currentFragment != FRAGMENT_NAV_PHONE) {
+            fragment_Nav_Iphone fragmentIphone = new fragment_Nav_Iphone();
+            Bundle bundleIphone = new Bundle();
+            bundleIphone.putInt("positionPhone", 1);
+            fragmentIphone.setArguments(bundleIphone);
+            loadFragment(fragmentIphone);
+            currentFragment = FRAGMENT_NAV_PHONE;
+        }
+    }
+
+    private void openIpadFragment() {
+        if (currentFragment != FRAGMENT_NAV_TABLE) {
+            fragment_Nav_Ipad fragmentNavIpad = new fragment_Nav_Ipad();
+            Bundle bundleIpad = new Bundle();
+            bundleIpad.putInt("positionIpad", 2);
+            fragmentNavIpad.setArguments(bundleIpad);
+            loadFragment(fragmentNavIpad);
+            currentFragment = FRAGMENT_NAV_TABLE;
+        }
+    }
+
+    private void openLaptopFragment() {
+        if (currentFragment != FRAGMENT_NAV_LAPTOP) {
+            fragment_Nav_Laptop fragmentNavLaptop = new fragment_Nav_Laptop();
+            Bundle bundleLaptop = new Bundle();
+            bundleLaptop.putInt("positionLaptop", 3);
+            fragmentNavLaptop.setArguments(bundleLaptop);
+            loadFragment(fragmentNavLaptop);
+            currentFragment = FRAGMENT_NAV_LAPTOP;
+        }
+
+    }
+
+    private void openAccessoriesFragment() {
+        if (currentFragment != FRAGMENT_NAV_ACCESSORIES) {
+            fragment_Nav_Accessories fragmentNavAccessories = new fragment_Nav_Accessories();
+            Bundle bundleAccessories = new Bundle();
+            bundleAccessories.putInt("positionAccessories", 4);
+            fragmentNavAccessories.setArguments(bundleAccessories);
+
+            loadFragment(fragmentNavAccessories);
+            currentFragment = FRAGMENT_NAV_ACCESSORIES;
+        }
+    }
+
+    private void openEarphoneFragment() {
+        if (currentFragment != FRAGMENT_NAV_EARPHONE) {
+            fragment_Nav_Earphone fragmentNavEarphone = new fragment_Nav_Earphone();
+            Bundle bundleEarphone = new Bundle();
+            bundleEarphone.putInt("positionEarphone", 5);
+            fragmentNavEarphone.setArguments(bundleEarphone);
+            loadFragment(fragmentNavEarphone);
+            currentFragment = FRAGMENT_NAV_EARPHONE;
+        }
+    }
+
+    private void openApplecareFragment() {
+        if (currentFragment != FRAGMENT_NAV_APPLECARE) {
+            fragment_Nav_Applecare fragmentNavApplecare = new fragment_Nav_Applecare();
+            Bundle bundleApplecare = new Bundle();
+            bundleApplecare.putInt("positionApplecare", 8);
+            fragmentNavApplecare.setArguments(bundleApplecare);
+            loadFragment(fragmentNavApplecare);
+            currentFragment = FRAGMENT_NAV_APPLECARE;
+        }
+    }
+
+    private void openWatchFragment() {
+        if (currentFragment != FRAGMENT_NAV_WATCH) {
+            fragment_Nav_Watch fragmentNavWatch = new fragment_Nav_Watch();
+            Bundle bundleWatch = new Bundle();
+            bundleWatch.putInt("positionWatch", 9);
+            fragmentNavWatch.setArguments(bundleWatch);
+            loadFragment(fragmentNavWatch);
+            currentFragment = FRAGMENT_NAV_WATCH;
         }
     }
 

@@ -27,7 +27,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="#dbdbdb" />
+                    android:background="#f7f7fe" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +66,7 @@
             android:layout_gravity="start">
             <ListView
                 android:id="@+id/lv_menuItem"
+                android:background="#f7f7fe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

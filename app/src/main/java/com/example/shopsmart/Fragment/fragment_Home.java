@@ -62,7 +62,6 @@ public class fragment_Home extends Fragment {
     private int positionIphone_Manufacturer = 1;
     private int positionSamsung_Manufacturer = 2;
     private int positionXiaomi_Manufacturer = 3;
-    private int POSITION_PHONE_MANUFACTURER = positionIphone_Manufacturer;
 
 
     private loadingDialog_ProgressBar dialog_progressBar;
@@ -101,6 +100,7 @@ public class fragment_Home extends Fragment {
         this.productAdapter = new ProductAdapter(getContext(), this.productList);
         this.rv_product.setHasFixedSize(true);
         this.rv_product.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        this.rv_product.setBackgroundColor(Color.parseColor("#f7f7fe"));
         this.rv_product.setAdapter(this.productAdapter);
 
         if (CheckConnected.haveNetworkConnection(getContext())) {

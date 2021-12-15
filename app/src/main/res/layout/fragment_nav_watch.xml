@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f7f7fe"
     tools:context=".Fragment.fragment_Nav_Watch">
 
     <LinearLayout
@@ -89,6 +90,7 @@
             android:id="@+id/rv_Watch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#f7f7fe"
             android:layout_margin="5dp" />
         <ImageView
             android:id="@+id/iv_NotifyEmpty"
