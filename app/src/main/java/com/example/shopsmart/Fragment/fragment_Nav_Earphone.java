@@ -1,6 +1,8 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,7 @@ public class fragment_Nav_Earphone extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private ImageView ivEarphoneNotifyEmpty;
     private TextView tvEarphoneNotifyEmpty;
 
@@ -114,11 +117,13 @@ public class fragment_Nav_Earphone extends Fragment {
             }).start();
             this.showViewFlipperEarphone();
             this.postDataByIDcategoryProduct(this.position_Earphone);
+            checkPositionButton(position_Earphone, position_Manufacturer_All);
             this.mbtnEarphoneAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Earphone);
+                    checkPositionButton(position_Earphone, position_Manufacturer_All);
                 }
             });
             this.mbtnEarphoneIphone.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +131,7 @@ public class fragment_Nav_Earphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Earphone, position_ManufacturerIphone);
+                    checkPositionButton(position_Earphone, position_ManufacturerIphone);
                 }
             });
             this.mbtnEarphoneSamsung.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +139,7 @@ public class fragment_Nav_Earphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Earphone, position_ManufacturerSamsung);
+                    checkPositionButton(position_Earphone, position_ManufacturerSamsung);
                 }
             });
             this.mbtnEarphoneXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +147,7 @@ public class fragment_Nav_Earphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Earphone, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Earphone, positon_ManufacturerXiaomi);
 
                 }
             });
@@ -282,5 +290,28 @@ public class fragment_Nav_Earphone extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+    private void checkPositionButton(int position_Earphone, int position_Manufacturer_Earphone) {
+        Log.e("position_Earphone",String.valueOf(position_Earphone));
+        if (position_Earphone == 5 && position_Manufacturer_Earphone == 0) {
+            this.mbtnEarphoneAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnEarphoneAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Earphone == 5 && position_Manufacturer_Earphone == 1) {
+            this.mbtnEarphoneIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnEarphoneIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Earphone == 5 && position_Manufacturer_Earphone == 2) {
+            this.mbtnEarphoneSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnEarphoneSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Earphone == 5 && position_Manufacturer_Earphone == 3) {
+            this.mbtnEarphoneXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnEarphoneXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

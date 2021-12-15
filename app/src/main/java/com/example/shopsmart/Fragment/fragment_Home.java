@@ -1,6 +1,7 @@
 package com.example.shopsmart.Fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -57,9 +58,13 @@ public class fragment_Home extends Fragment {
     private Button btn_homeIphone;
     private Button btn_homeSamsung;
     private Button btn_homeXiaomi;
+
     private int positionIphone_Manufacturer = 1;
     private int positionSamsung_Manufacturer = 2;
     private int positionXiaomi_Manufacturer = 3;
+    private int POSITION_PHONE_MANUFACTURER = positionIphone_Manufacturer;
+
+
     private loadingDialog_ProgressBar dialog_progressBar;
     private ImageView ivhomeNotifyEmpty;
     private TextView tvhomeNotifyEmpty;
@@ -119,6 +124,8 @@ public class fragment_Home extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataManufacturerProduct(positionIphone_Manufacturer);
+                    checkPositionButton(positionIphone_Manufacturer);
+
                 }
             });
             this.btn_homeSamsung.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +133,7 @@ public class fragment_Home extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataManufacturerProduct(positionSamsung_Manufacturer);
+                    checkPositionButton(positionSamsung_Manufacturer);
                 }
             });
             this.btn_homeXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +141,7 @@ public class fragment_Home extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataManufacturerProduct(positionXiaomi_Manufacturer);
+                    checkPositionButton(positionXiaomi_Manufacturer);
                 }
             });
         }
@@ -199,7 +208,7 @@ public class fragment_Home extends Fragment {
                         }
 
                     }
-                }else {
+                } else {
                     ivhomeNotifyEmpty.setVisibility(View.VISIBLE);
                     tvhomeNotifyEmpty.setVisibility(View.VISIBLE);
                     tvhomeNotifyEmpty.setText("Chưa có sản phẩm");
@@ -217,7 +226,6 @@ public class fragment_Home extends Fragment {
     }
 
     private void getDataManufacturerProduct(int position_Manufacturer) {
-
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturer(), new Response.Listener<String>() {
             @Override
@@ -276,5 +284,24 @@ public class fragment_Home extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void checkPositionButton(int position_Button_Manufacturer) {
+        //check data với vị trí buttons đã click
+        if (position_Button_Manufacturer == 1) {
+            btn_homeIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            btn_homeIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Button_Manufacturer == 2) {
+            btn_homeSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            btn_homeSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Button_Manufacturer == 3) {
+            btn_homeXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            btn_homeXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

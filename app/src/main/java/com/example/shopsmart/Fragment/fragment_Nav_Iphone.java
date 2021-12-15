@@ -1,12 +1,14 @@
 package com.example.shopsmart.Fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,7 @@ public class fragment_Nav_Iphone extends Fragment {
     private int position_Manufacturer_Iphone = 1;
     private int position_Manufacturer_Samsung = 2;
     private int position_Manufacturer_Xiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private loadingDialog_ProgressBar dialog_progressBar;
     private ImageView ivSmartPhoneNotifyEmpty;
     private TextView tvSmartPhoneNotifyEmpty;
@@ -125,12 +128,14 @@ public class fragment_Nav_Iphone extends Fragment {
             }).start();
             this.showViewFlipperSmartPhone();
             this.postDataByIDcategoryProduct(this.position_Phone);
+            checkPositionButton(position_Phone, position_Manufacturer_All);
 
             this.mbtn_navIphone_SmartPhone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufactuer(position_Phone, position_Manufacturer_Iphone);
+                    checkPositionButton(position_Phone, position_Manufacturer_Iphone);
                 }
             });
             this.mbtn_navSamsung_SmartPhone.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +143,7 @@ public class fragment_Nav_Iphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufactuer(position_Phone, position_Manufacturer_Samsung);
+                    checkPositionButton(position_Phone, position_Manufacturer_Samsung);
                 }
             });
             this.mbtn_navXiaomi_SmartPhone.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +151,7 @@ public class fragment_Nav_Iphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufactuer(position_Phone, position_Manufacturer_Xiaomi);
+                    checkPositionButton(position_Phone, position_Manufacturer_Xiaomi);
                 }
             });
             this.mbtn_navAll_SmartPhone.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +159,7 @@ public class fragment_Nav_Iphone extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Phone);
+                    checkPositionButton(position_Phone, position_Manufacturer_All);
                 }
             });
         }
@@ -181,6 +189,7 @@ public class fragment_Nav_Iphone extends Fragment {
     }
 
     private void postDataByIDcategoryProduct(int position_Phone) {
+        Log.e("position_Phone", String.valueOf(position_Phone));
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDCateGory(), new Response.Listener<String>() {
             @Override
@@ -287,5 +296,28 @@ public class fragment_Nav_Iphone extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void checkPositionButton(int position_Phone, int position_Manufacturer_Phone) {
+        if (position_Phone == 1 && position_Manufacturer_Phone == 0) {
+            mbtn_navAll_SmartPhone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            mbtn_navAll_SmartPhone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Phone == 1 && position_Manufacturer_Phone == 1) {
+            mbtn_navIphone_SmartPhone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            mbtn_navIphone_SmartPhone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Phone == 1 && position_Manufacturer_Phone == 2) {
+            mbtn_navSamsung_SmartPhone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            mbtn_navSamsung_SmartPhone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Phone == 1 && position_Manufacturer_Phone == 3) {
+            mbtn_navXiaomi_SmartPhone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            mbtn_navXiaomi_SmartPhone.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

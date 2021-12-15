@@ -1,5 +1,6 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class fragment_Nav_Ipad extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private ImageView ivIpadNotifyEmpty;
     private TextView tvIpadNotifyEmpty;
 
@@ -116,11 +118,13 @@ public class fragment_Nav_Ipad extends Fragment {
             }).start();
             this.showViewFlipperIpad();
             this.postDataByIDcategoryProduct(this.position_Ipad);
+            checkPositionButton(position_Ipad, position_Manufacturer_All);
             this.mbtnIpadAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Ipad);
+                    checkPositionButton(position_Ipad, position_Manufacturer_All);
                 }
             });
             this.mbtnIpadIphone.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +132,7 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerIphone);
+                    checkPositionButton(position_Ipad, position_ManufacturerIphone);
                 }
             });
             this.mbtnIpadSamsung.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +140,7 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, position_ManufacturerSamsung);
+                    checkPositionButton(position_Ipad, position_ManufacturerSamsung);
                 }
             });
             this.mbtnIpadXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +148,7 @@ public class fragment_Nav_Ipad extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Ipad, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Ipad, positon_ManufacturerXiaomi);
 
                 }
             });
@@ -278,5 +285,29 @@ public class fragment_Nav_Ipad extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void checkPositionButton(int position_Ipad, int position_Manufacturer_Ipad) {
+        Log.e("position_Ipad",String.valueOf(position_Ipad));
+        if (position_Ipad == 2 && position_Manufacturer_Ipad == 0) {
+            this.mbtnIpadAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnIpadAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Ipad == 2 && position_Manufacturer_Ipad == 1) {
+            this.mbtnIpadIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnIpadIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Ipad == 2 && position_Manufacturer_Ipad == 2) {
+            this.mbtnIpadSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnIpadSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Ipad == 2 && position_Manufacturer_Ipad == 3) {
+            this.mbtnIpadXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnIpadXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

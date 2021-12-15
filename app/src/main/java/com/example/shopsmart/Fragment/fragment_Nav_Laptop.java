@@ -1,5 +1,6 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -66,6 +67,7 @@ public class fragment_Nav_Laptop extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
 
     public fragment_Nav_Laptop() {
         // Required empty public constructor
@@ -127,11 +129,13 @@ public class fragment_Nav_Laptop extends Fragment {
             }).start();
             this.showViewFlipperLaptop();
             this.postDataByIDcategoryProduct(this.position_Laptop);
+            this.checkPositionButton(position_Laptop, position_Manufacturer_All);
             this.mbtnLaptopAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Laptop);
+                    checkPositionButton(position_Laptop, position_Manufacturer_All);
                 }
             });
             this.mbtnLaptopIphone.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +143,7 @@ public class fragment_Nav_Laptop extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, position_ManufacturerIphone);
+                    checkPositionButton(position_Laptop, position_ManufacturerIphone);
                 }
             });
             this.mbtnLaptopSamsung.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +151,7 @@ public class fragment_Nav_Laptop extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, position_ManufacturerSamsung);
+                    checkPositionButton(position_Laptop, position_ManufacturerSamsung);
                 }
             });
             this.mbtnLaptopXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +159,7 @@ public class fragment_Nav_Laptop extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Laptop, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Laptop, positon_ManufacturerXiaomi);
                 }
             });
         }
@@ -297,6 +304,30 @@ public class fragment_Nav_Laptop extends Fragment {
         };
         requestQueue.add(stringRequest);
 
+    }
+
+    private void checkPositionButton(int position_Laptop, int position_Manufacturer_Laptop) {
+        Log.e("position_Laptop", String.valueOf(position_Laptop));
+        if (position_Laptop == 3 && position_Manufacturer_Laptop == 0) {
+            this.mbtnLaptopAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnLaptopAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Laptop == 3 && position_Manufacturer_Laptop == 1) {
+            this.mbtnLaptopIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnLaptopIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Laptop == 3 && position_Manufacturer_Laptop == 2) {
+            this.mbtnLaptopSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnLaptopSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Laptop == 3 && position_Manufacturer_Laptop == 3) {
+            this.mbtnLaptopXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnLaptopXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
 }

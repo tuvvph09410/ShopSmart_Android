@@ -1,6 +1,8 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,7 @@ public class fragment_Nav_Watch extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private ImageView ivWatchNotifyEmpty;
     private TextView tvWatchNotifyEmpty;
 
@@ -112,11 +115,13 @@ public class fragment_Nav_Watch extends Fragment {
             }).start();
             this.showViewFlipperWatch();
             this.postDataByIDcategoryProduct(this.position_Watch);
+            checkPositionButton(position_Watch, position_Manufacturer_All);
             this.mbtnWatchAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Watch);
+                    checkPositionButton(position_Watch, position_Manufacturer_All);
                 }
             });
             this.mbtnWatchIphone.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +129,7 @@ public class fragment_Nav_Watch extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Watch, position_ManufacturerIphone);
+                    checkPositionButton(position_Watch, position_ManufacturerIphone);
                 }
             });
             this.mbtnWatchSamsung.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +137,7 @@ public class fragment_Nav_Watch extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Watch, position_ManufacturerSamsung);
+                    checkPositionButton(position_Watch, position_ManufacturerSamsung);
                 }
             });
             this.mbtnWatchXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +145,7 @@ public class fragment_Nav_Watch extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Watch, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Watch, positon_ManufacturerXiaomi);
 
                 }
             });
@@ -277,5 +285,29 @@ public class fragment_Nav_Watch extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void checkPositionButton(int position_Watch, int position_Manufacturer_Watch) {
+        Log.e("position_Watch", String.valueOf(position_Watch));
+        if (position_Watch == 9 && position_Manufacturer_Watch == 0) {
+            this.mbtnWatchAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnWatchAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Watch == 9 && position_Manufacturer_Watch == 1) {
+            this.mbtnWatchIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnWatchIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Watch == 9 && position_Manufacturer_Watch == 2) {
+            this.mbtnWatchSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnWatchSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Watch == 9 && position_Manufacturer_Watch == 3) {
+            this.mbtnWatchXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnWatchXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

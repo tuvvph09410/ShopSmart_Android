@@ -1,6 +1,8 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,7 @@ public class fragment_Nav_Accessories extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private ImageView ivAccessoriesNotifyEmpty;
     private TextView tvAccessoriesNotifyEmpty;
 
@@ -115,11 +118,13 @@ public class fragment_Nav_Accessories extends Fragment {
             }).start();
             this.showViewFlipperAccessories();
             this.postDataByIDcategoryProduct(this.position_Accessories);
+            checkPositionButton(position_Accessories, position_Manufacturer_All);
             this.mbtnAccessoriesAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Accessories);
+                    checkPositionButton(position_Accessories, position_Manufacturer_All);
 
                 }
             });
@@ -128,6 +133,7 @@ public class fragment_Nav_Accessories extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Accessories, position_ManufacturerIphone);
+                    checkPositionButton(position_Accessories, position_ManufacturerIphone);
 
                 }
             });
@@ -136,7 +142,7 @@ public class fragment_Nav_Accessories extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Accessories, position_ManufacturerSamsung);
-
+                    checkPositionButton(position_Accessories, position_ManufacturerSamsung);
                 }
             });
             this.mbtnAccessoriesXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +150,7 @@ public class fragment_Nav_Accessories extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Accessories, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Accessories, positon_ManufacturerXiaomi);
                 }
             });
         }
@@ -202,7 +209,7 @@ public class fragment_Nav_Accessories extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     ivAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
                     tvAccessoriesNotifyEmpty.setVisibility(View.VISIBLE);
                     tvAccessoriesNotifyEmpty.setText("Chưa có sản phẩm");
@@ -226,6 +233,7 @@ public class fragment_Nav_Accessories extends Fragment {
 
         requestQueue.add(stringRequest);
     }
+
     private void getDataByIDCategoryANDManufacturerProduct(int position_Accessories, int position_Manufacturer) {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetProductByIDmanufacturerAndCategory(), new Response.Listener<String>() {
@@ -281,5 +289,29 @@ public class fragment_Nav_Accessories extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void checkPositionButton(int position_Accessories, int position_Manufacturer_Accessories) {
+        Log.e("position_Accessories", String.valueOf(position_Accessories));
+        if (position_Accessories == 4 && position_Manufacturer_Accessories == 0) {
+            this.mbtnAccessoriesAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnAccessoriesAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Accessories == 4 && position_Manufacturer_Accessories == 1) {
+            this.mbtnAccessoriesIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnAccessoriesIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Accessories == 4 && position_Manufacturer_Accessories == 2) {
+            this.mbtnAccessoriesSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnAccessoriesSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Accessories == 4 && position_Manufacturer_Accessories == 3) {
+            this.mbtnAccessoriesXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnAccessoriesXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

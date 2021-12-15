@@ -1,6 +1,8 @@
 package com.example.shopsmart.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,7 @@ public class fragment_Nav_Applecare extends Fragment {
     private int position_ManufacturerIphone = 1;
     private int position_ManufacturerSamsung = 2;
     private int positon_ManufacturerXiaomi = 3;
+    private int position_Manufacturer_All = 0;
     private ImageView ivApplecareNotifyEmpty;
     private TextView tvApplecareNotifyEmpty;
     public fragment_Nav_Applecare() {
@@ -115,11 +118,13 @@ public class fragment_Nav_Applecare extends Fragment {
             }).start();
             this.showViewFlipperApplecare();
             this.postDataByIDcategoryProduct(this.position_Applecare);
+            checkPositionButton(position_Applecare, position_Manufacturer_All);
             this.mbtnApplecareAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     productList.clear();
                     postDataByIDcategoryProduct(position_Applecare);
+                    checkPositionButton(position_Applecare, position_Manufacturer_All);
                 }
             });
             this.mbtnApplecareIphone.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +132,7 @@ public class fragment_Nav_Applecare extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Applecare, position_ManufacturerIphone);
+                    checkPositionButton(position_Applecare, position_ManufacturerIphone);
                 }
             });
             this.mbtnApplecareSamsung.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +140,7 @@ public class fragment_Nav_Applecare extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Applecare, position_ManufacturerSamsung);
+                    checkPositionButton(position_Applecare, position_ManufacturerSamsung);
                 }
             });
             this.mbtnApplecareXiaomi.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +148,7 @@ public class fragment_Nav_Applecare extends Fragment {
                 public void onClick(View v) {
                     productList.clear();
                     getDataByIDCategoryANDManufacturerProduct(position_Applecare, positon_ManufacturerXiaomi);
+                    checkPositionButton(position_Applecare, positon_ManufacturerXiaomi);
 
                 }
             });
@@ -275,5 +283,28 @@ public class fragment_Nav_Applecare extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+    private void checkPositionButton(int position_Applecare, int position_Manufacturer_Applecare) {
+        Log.e("position_Applecare",String.valueOf(position_Applecare));
+        if (position_Applecare == 8 && position_Manufacturer_Applecare == 0) {
+            this.mbtnApplecareAll.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnApplecareAll.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Applecare == 8 && position_Manufacturer_Applecare == 1) {
+            this.mbtnApplecareIphone.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnApplecareIphone.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Applecare == 8 && position_Manufacturer_Applecare == 2) {
+            this.mbtnApplecareSamsung.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnApplecareSamsung.setBackgroundColor(Color.TRANSPARENT);
+        }
+        if (position_Applecare == 8 && position_Manufacturer_Applecare == 3) {
+            this.mbtnApplecareXiaomi.setBackgroundColor(Color.parseColor("#ecc8ff"));
+        } else {
+            this.mbtnApplecareXiaomi.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }
