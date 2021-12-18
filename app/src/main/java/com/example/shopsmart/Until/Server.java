@@ -7,9 +7,14 @@ public class Server {
     private static String urlGetProductByIDCateGory = localhost + "/shop_smart/getselect_byIdcatergory_product.php";
     private static String urlGetProductByIDmanufacturer = localhost + "/shop_smart/getselect_byIdmanufacturer_product.php";
     private static String urlGetProductByIDmanufacturerAndCategory = localhost + "/shop_smart/getselect_byidcategory_and_manufacturer_product.php";
+    private static String urlGetColorByIDProduct = localhost + "/shop_smart/getselect_byIdProduct_color_and_image.php";
 
     public static String getUrlGetProductByIDmanufacturerAndCategory() {
         return urlGetProductByIDmanufacturerAndCategory;
+    }
+
+    public static String getUrlGetColorByIDProduct() {
+        return urlGetColorByIDProduct;
     }
 
     public static String getUrlGetProductByIDmanufacturer() {

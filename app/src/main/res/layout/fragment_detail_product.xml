@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.fragment_Detail_Product">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/sv_DetailProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:background="@drawable/round_image"
+                    app:sliderAnimationDuration="700"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="700"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorPadding="4dp"
+                    app:sliderIndicatorRadius="2.5dp"
+                    app:sliderIndicatorSelectedColor="#9b45ff"
+                    app:sliderIndicatorUnselectedColor="#f5f5ff"
+                    app:sliderScrollTimeInSec="3"
+                    app:sliderStartAutoCycle="true">
+
+                </com.smarteist.autoimageslider.SliderView>
+            </LinearLayout>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_nameDetailProduct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="7"
+                                android:padding="5dp"
+                                android:text="iPhone 13 Pro Max "
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="right">
+
+                                <ImageView
+                                    android:id="@+id/iv_evaluateProduct"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/ic_baseline_output_24" />
+
+                                <TextView
+                                    android:id="@+id/tv_point_evaluateProduct"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="(4.5)" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="4">
+
+                            <TextView
+                                android:id="@+id/tv_informationProduct"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng 5G tốc độ cao - Không gian hiển thị sống động - Màn hình 6.7 Super Retina XDR độ sáng cao, sắc nét" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.5"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:text="Dung lượng:"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_detail1TB"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="53dp"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:text="1TB"
+                                android:textSize="8dp"
+                                app:cornerRadius="20dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_detail512GB"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="65dp"
+                                android:layout_height="35dp"
+                                android:text="512GB"
+                                android:textSize="8dp"
+                                app:cornerRadius="20dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_detail256GB"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="65dp"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:text="256GB"
+                                android:textSize="8dp"
+                                app:cornerRadius="20dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_detail128GB"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="65dp"
+                                android:layout_height="35dp"
+                                android:text="128GB"
+                                android:textSize="8dp"
+                                app:cornerRadius="20dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:layout_weight="0.2"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:text="Màu có sẵn:"
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_ColorSilverProduct"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="25dp"
+                                android:adjustViewBounds="true"
+                                android:background="#C0C0C0"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_ColorGrayProduct"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="25dp"
+                                android:adjustViewBounds="true"
+                                android:background="#808080"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_ColorGoldProduct"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="25dp"
+                                android:adjustViewBounds="true"
+                                android:background="#D4AF37"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_ColorBlueProduct"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true"
+                                android:background="#6495ED"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

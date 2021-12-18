@@ -1,6 +1,7 @@
 package com.example.shopsmart.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopsmart.Entity.Product;
+import com.example.shopsmart.Fragment.fragment_Detail_Product;
 import com.example.shopsmart.R;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         } else {
             holder.tvActiveProduct.setText("CÒN HÀNG");
         }
-
+        position = holder.position;
     }
 
     @Override
@@ -62,6 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView tvPriceProduct;
         TextView tvActiveProduct;
         CardView cardView;
+        int position;
 
         public ViewHolderProduct(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +75,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvPriceProduct = itemView.findViewById(R.id.tv_fragmentPriceProduct);
             tvActiveProduct = itemView.findViewById(R.id.tv_fragmentActiveProduct);
             cardView = (CardView) itemView.findViewById(R.id.cv_itemProduct);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Product product = productList.get(position);
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    fragment_Detail_Product fragment_detail_product = new fragment_Detail_Product();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idProduct", product.getId());
+                    fragment_detail_product.setArguments(bundle);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Home, fragment_detail_product).addToBackStack(null).commit();
+
+                }
+            });
         }
     }
+
 }

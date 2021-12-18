@@ -1,6 +1,7 @@
 package com.example.shopsmart.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
@@ -47,6 +49,7 @@ import com.example.shopsmart.Fragment.fragment_Nav_Iphone;
 import com.example.shopsmart.Fragment.fragment_Nav_Laptop;
 import com.example.shopsmart.Fragment.fragment_Payment;
 import com.example.shopsmart.Fragment.fragment_Store;
+import com.example.shopsmart.Interface.MyDrawerController;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
@@ -59,7 +62,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MyDrawerController {
 
     private static final int FRAGMENT_HOME = 1;
     private static final int FRAGMENT_STORE = 2;
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_NAV_EARPHONE = 9;
     private static final int FRAGMENT_NAV_APPLECARE = 10;
     private static final int FRAGMENT_NAV_WATCH = 11;
-   
+
     private int currentFragment = FRAGMENT_HOME;
 
 
@@ -89,12 +92,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String descriptionCategory = null;
     private ListView lv_menuItem;
     private loadingDialog_ProgressBar dialog_progressBar;
+    private FragmentManager fragmentManager;
+    private ActionBarDrawerToggle toggle;
+    private  Fragment currentLoadFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.toolbar = findViewById(R.id.toolbar);
+
+        this.actionToolBar();
+
+
         this.drawerLayout = findViewById(R.id.drawer_layout);
         this.navigationView = findViewById(R.id.navigation_view);
         this.bottomNavigationView = findViewById(R.id.bottom_navigaiton_view);
@@ -105,15 +115,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //loading dialog_progressBar
         this.dialog_progressBar = new loadingDialog_ProgressBar(MainActivity.this);
 
-        this.actionToolBar();
-
         this.adapterCategoryMenu = new CategoryMenuStartAdapter(categoryList, getApplicationContext());
+
 
         this.lv_menuItem.setAdapter(this.adapterCategoryMenu);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, this.drawerLayout, this.toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
+        this.toggle = new ActionBarDrawerToggle(MainActivity.this, this.drawerLayout, this.toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
         this.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
         this.navigationView.setNavigationItemSelectedListener(MainActivity.this);
         if (CheckConnected.haveNetworkConnection(getApplicationContext())) {
             this.dialog_progressBar.startLoading_DialogProgressBar();
@@ -129,25 +147,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         this.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        this.fragmentManager = getSupportFragmentManager();
 
         loadFragment(new fragment_Home());
 
         this.navigationView.setCheckedItem(R.id.nav_home);
         this.bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+        this.fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fragmentManager.getBackStackEntryCount() >0){
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                }else {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    toggle.syncState();
+                }
+            }
+        });
 
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (this.toggle != null) {
+            this.toggle.syncState();
+        }
     }
 
     private void actionToolBar() {
         setSupportActionBar(this.toolbar);
         this.actionBar = getSupportActionBar();
-        this.actionBar.setDisplayHomeAsUpEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        if (actionBar != null) {
+
+            actionBar.setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
+        }
 
     }
 
@@ -181,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.nav_home:
                     openHomeFragment();
                     bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-
                     break;
                 case R.id.nav_local_store:
                     openStoreFragment();
@@ -421,5 +461,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    public void setDrawerLocked() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void setDrawerUnlocked() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 }
