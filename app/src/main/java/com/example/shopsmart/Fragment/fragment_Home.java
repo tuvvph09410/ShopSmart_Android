@@ -94,6 +94,7 @@ public class fragment_Home extends Fragment {
         this.btn_homeXiaomi = view.findViewById(R.id.btn_homeXiaomi);
         this.ivhomeNotifyEmpty = view.findViewById(R.id.iv_NotifyEmpty);
         this.tvhomeNotifyEmpty = view.findViewById(R.id.tv_NotifyEmpty);
+
         this.dialog_progressBar = new loadingDialog_ProgressBar(getContext());
 
         this.productList = new ArrayList<>();

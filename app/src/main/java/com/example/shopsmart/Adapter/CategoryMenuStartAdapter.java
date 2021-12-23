@@ -64,6 +64,5 @@ public class CategoryMenuStartAdapter extends BaseAdapter {
         ImageView iv_itemMenuImage;
         TextView tv_itemMenuTitle;
         TextView tv_itemMenuDescription;
-
     }
 }

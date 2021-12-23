@@ -13,12 +13,15 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -36,12 +39,14 @@ import com.example.shopsmart.Until.Server;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +57,14 @@ public class fragment_Detail_Product extends Fragment {
     private CardView cvCenter, cvBottom;
     private ActionBar actionBar;
     private SliderView sv_DetailProduct;
+    private TextView tvTitleDetailProduct, tvDescriptionProduct,tvPriceProduct;
+    private ImageView ivEvaluateProduct;
     private List<ColorProduct> listColor;
     private SliderAdapterDetailProduct sliderAdapterDetailProduct;
     private int idProduct;
+    private String nameProduct;
+    private String descriptionProduct;
+    private int priceProduct;
 
     public fragment_Detail_Product() {
         // Required empty public constructor
@@ -70,6 +80,9 @@ public class fragment_Detail_Product extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // /khi cần bật nút back thì gọi hàm này true là bật false là tắt
+        ((MainActivity) requireActivity()).toolbarBack(true);
+
 
     }
 
@@ -78,26 +91,55 @@ public class fragment_Detail_Product extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this
         View view = inflater.inflate(R.layout.fragment_detail_product, container, false);
-        this.cvCenter = view.findViewById(R.id.cv_center);
-        this.cvBottom = view.findViewById(R.id.cv_bottom);
-        this.sv_DetailProduct = view.findViewById(R.id.sv_DetailProduct);
-        this.listColor = new ArrayList<>();
-        this.idProduct = getArguments().getInt("idProduct");
 
-        ((MainActivity) getActivity()).setDrawerLocked();
+        this.createComponent(view);
+
+        this.getArgument();
+
         this.setBackgroundCardView();
 
+        this.loadDetailProduct();
 
         if (CheckConnected.haveNetworkConnection(getContext())) {
             this.getColorByIdProduct(idProduct);
             this.slideImageProduct();
+            this.loadImage();
         }
-
         return view;
     }
 
-    private void slideImageProduct() {
+    private void createComponent(View view) {
+        this.cvCenter = view.findViewById(R.id.cv_center);
+        this.cvBottom = view.findViewById(R.id.cv_bottom);
+        this.sv_DetailProduct = view.findViewById(R.id.sv_DetailProduct);
+        this.tvTitleDetailProduct = view.findViewById(R.id.tv_nameDetailProduct);
+        this.ivEvaluateProduct = view.findViewById(R.id.iv_evaluateProduct);
+        this.tvDescriptionProduct = view.findViewById(R.id.tv_informationProduct);
+        this.tvPriceProduct=view.findViewById(R.id.tvPriceProduct);
+    }
 
+    private void getArgument() {
+        this.idProduct = getArguments().getInt("idProduct");
+        Log.d("idProduct", String.valueOf(idProduct));
+        this.nameProduct = getArguments().getString("nameProduct");
+        this.descriptionProduct = getArguments().getString("descriptionProduct");
+        this.priceProduct=getArguments().getInt("priceProduct");
+
+
+    }
+
+    private void loadDetailProduct() {
+        DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
+        this.tvTitleDetailProduct.setText(this.nameProduct);
+        this.tvDescriptionProduct.setText(this.descriptionProduct);
+        this.tvPriceProduct.setText(decimalFormat.format(this.priceProduct) + "đ");
+    }
+
+    private void loadImage() {
+        Picasso.get().load("https://img.icons8.com/color/48/000000/star--v1.png").error(R.drawable.ic_baseline_error_24).into(ivEvaluateProduct);
+    }
+
+    private void slideImageProduct() {
         this.sliderAdapterDetailProduct = new SliderAdapterDetailProduct(this.listColor);
         this.sv_DetailProduct.setSliderAdapter(this.sliderAdapterDetailProduct);
         this.sv_DetailProduct.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
@@ -105,56 +147,14 @@ public class fragment_Detail_Product extends Fragment {
         this.sv_DetailProduct.startAutoCycle();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-
-        }
-    }
-
     private void setBackgroundCardView() {
         this.cvCenter.setBackgroundResource(R.drawable.corner_cardview_center_product);
         this.cvBottom.setBackgroundResource(R.drawable.corner_cardview_bottom_product);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.back_menu_fragment, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.app_bar_back:
-                getActivity().onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((MainActivity) getActivity()).setDrawerUnlocked();
-    }
 
     private void getColorByIdProduct(int idProduct) {
+        this.listColor = new ArrayList<>();
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.getUrlGetColorByIDProduct(), new Response.Listener<String>() {
             @Override

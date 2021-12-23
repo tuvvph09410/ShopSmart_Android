@@ -2,6 +2,7 @@ package com.example.shopsmart.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.shopsmart.Fragment.fragment_Detail_Product;
 import com.example.shopsmart.R;
 import com.squareup.picasso.Picasso;
 
+import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public ProductAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
+
     }
 
     @NonNull
@@ -52,7 +55,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         } else {
             holder.tvActiveProduct.setText("CÒN HÀNG");
         }
-        position = holder.position;
+
+        holder.idProduct = product.getId();
+        holder.nameProduct = product.getName();
+        holder.descriptionProduct = product.getDescription();
+        holder.priceProduct=product.getPrice();
     }
 
     @Override
@@ -66,7 +73,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView tvPriceProduct;
         TextView tvActiveProduct;
         CardView cardView;
-        int position;
+        int idProduct;
+        String nameProduct;
+        String descriptionProduct;
+        int priceProduct;
 
         public ViewHolderProduct(@NonNull View itemView) {
             super(itemView);
@@ -78,13 +88,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Product product = productList.get(position);
+
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     fragment_Detail_Product fragment_detail_product = new fragment_Detail_Product();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("idProduct", product.getId());
+                    bundle.putInt("idProduct", idProduct);
+                    bundle.putString("nameProduct", nameProduct);
+                    bundle.putString("descriptionProduct", descriptionProduct);
+                    bundle.putInt("priceProduct",priceProduct);
                     fragment_detail_product.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Home, fragment_detail_product).addToBackStack(null).commit();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame_container, fragment_detail_product)
+                            .addToBackStack(fragment_detail_product.getClass().getName())
+                            .commit();
 
                 }
             });

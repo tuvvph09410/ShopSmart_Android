@@ -9,39 +9,34 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-       >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Light">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="#f7f7fe" />
-            </com.google.android.material.appbar.AppBarLayout>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/layout_toolbar" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <FrameLayout
+                <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/frame_container"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    app:defaultNavHost="true"
                     app:layout_constraintBottom_toTopOf="@+id/bottom_navigaiton_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:navGraph="@navigation/navigation_shopmart">
+
+                </androidx.fragment.app.FragmentContainerView>
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/bottom_navigaiton_view"
@@ -49,7 +44,6 @@
                     android:layout_height="wrap_content"
                     app:itemIconTint="@drawable/item_selected"
                     app:itemTextColor="@drawable/item_selected"
-
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -64,11 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start">
+
             <ListView
                 android:id="@+id/lv_menuItem"
-                android:background="#f7f7fe"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="#f7f7fe" />
 
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>

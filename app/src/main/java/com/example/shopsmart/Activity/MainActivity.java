@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -15,18 +16,23 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
 import android.widget.Toast;
 
 
@@ -35,6 +41,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.example.shopsmart.Adapter.CategoryMenuStartAdapter;
 import com.example.shopsmart.Dialog.loadingDialog_ProgressBar;
 import com.example.shopsmart.Entity.Category;
@@ -49,10 +57,11 @@ import com.example.shopsmart.Fragment.fragment_Nav_Iphone;
 import com.example.shopsmart.Fragment.fragment_Nav_Laptop;
 import com.example.shopsmart.Fragment.fragment_Payment;
 import com.example.shopsmart.Fragment.fragment_Store;
-import com.example.shopsmart.Interface.MyDrawerController;
+
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.example.shopsmart.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -62,7 +71,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MyDrawerController {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final int FRAGMENT_HOME = 1;
     private static final int FRAGMENT_STORE = 2;
@@ -75,64 +84,121 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_NAV_EARPHONE = 9;
     private static final int FRAGMENT_NAV_APPLECARE = 10;
     private static final int FRAGMENT_NAV_WATCH = 11;
-
     private int currentFragment = FRAGMENT_HOME;
 
-
-    private BottomNavigationView bottomNavigationView;
-    private ActionBar actionBar;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
     private CategoryMenuStartAdapter adapterCategoryMenu;
     private List<Category> categoryList;
-    private int id = 0;
-    private String titleCategory = null;
-    private String urlCategory = null;
-    private String descriptionCategory = null;
-    private ListView lv_menuItem;
     private loadingDialog_ProgressBar dialog_progressBar;
-    private FragmentManager fragmentManager;
-    private ActionBarDrawerToggle toggle;
-    private  Fragment currentLoadFragment;
+    private ActivityMainBinding binding;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        this.toolbar = findViewById(R.id.toolbar);
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
 
-        this.actionToolBar();
+        // init loading
+        this.initLoading();
+
+        //init loading listview drawer
+        this.initItemDrawer();
+
+        //init toolbar
+        this.initToolbar();
+
+        //init bottom bar;
+
+        this.initBottomBar();
+
+        //init drawer layout;
+        this.initDrawerLayout();
+
+        //click view
+        this.clickButtonView();
+
+    }
+
+    private void clickButtonView() {
+        binding.frameContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.toolbar.svSearch.setIconified(true);
+
+            }
+        });
+    }
 
 
-        this.drawerLayout = findViewById(R.id.drawer_layout);
-        this.navigationView = findViewById(R.id.navigation_view);
-        this.bottomNavigationView = findViewById(R.id.bottom_navigaiton_view);
-        this.bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        this.lv_menuItem = findViewById(R.id.lv_menuItem);
+    private void initToolbar() {
+        binding.toolbar.ibtnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    binding.drawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+        binding.toolbar.ibtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                toolbarBack(false);
+            }
+        });
+
+        // init search
+        this.initSearch();
+    }
+
+    private void initSearch() {
+
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        binding.toolbar.svSearch.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        binding.toolbar.svSearch.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v.hasFocus() || binding.toolbar.svSearch.getQuery().length() > 0) {
+                    binding.toolbar.tvAppName.setVisibility(View.GONE);
+                    binding.toolbar.ibtnNotification.setVisibility(View.GONE);
+                } else {
+                    binding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+                    binding.toolbar.ibtnNotification.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        binding.toolbar.svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplication(), "search", Toast.LENGTH_SHORT).show();
+                binding.toolbar.tvAppName.setVisibility(View.VISIBLE);
+                binding.toolbar.svSearch.setVisibility(View.GONE);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(getApplication(), "search2", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+
+    }
+
+    public void toolbarBack(boolean isEnable) {
+        binding.toolbar.ibtnBack.setVisibility(isEnable ? View.VISIBLE : View.GONE);
+        binding.toolbar.ibtnMenu.setVisibility(isEnable ? View.GONE : View.VISIBLE);
+        binding.toolbar.svSearch.setVisibility(isEnable ? View.GONE : View.VISIBLE);
+        binding.toolbar.svSearch.setIconified(true);
+    }
+
+
+    private void initItemDrawer() {
         this.categoryList = new ArrayList<>();
-
-        //loading dialog_progressBar
-        this.dialog_progressBar = new loadingDialog_ProgressBar(MainActivity.this);
-
-        this.adapterCategoryMenu = new CategoryMenuStartAdapter(categoryList, getApplicationContext());
-
-
-        this.lv_menuItem.setAdapter(this.adapterCategoryMenu);
-
-        this.toggle = new ActionBarDrawerToggle(MainActivity.this, this.drawerLayout, this.toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        this.drawerLayout.addDrawerListener(toggle);
-        this.navigationView.setNavigationItemSelectedListener(MainActivity.this);
         if (CheckConnected.haveNetworkConnection(getApplicationContext())) {
             this.dialog_progressBar.startLoading_DialogProgressBar();
             Handler handler = new Handler();
@@ -143,110 +209,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }, 3000);
             this.getDataCategoryJson();
-            this.clickItemListView();
         }
-
-        this.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        this.fragmentManager = getSupportFragmentManager();
-
-        loadFragment(new fragment_Home());
-
-        this.navigationView.setCheckedItem(R.id.nav_home);
-        this.bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-        this.fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() >0){
-                    actionBar.setDisplayHomeAsUpEnabled(false);
-                }else {
-                    actionBar.setDisplayHomeAsUpEnabled(true);
-                    toggle.syncState();
-                }
-            }
-        });
+        this.adapterCategoryMenu = new CategoryMenuStartAdapter(categoryList, getApplicationContext());
+        this.binding.lvMenuItem.setAdapter(this.adapterCategoryMenu);
 
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (this.toggle != null) {
-            this.toggle.syncState();
-        }
-    }
-
-    private void actionToolBar() {
-        setSupportActionBar(this.toolbar);
-        this.actionBar = getSupportActionBar();
-        if (actionBar != null) {
-
-            actionBar.setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
-            });
-        }
-
+    private void initLoading() {
+        this.dialog_progressBar = new loadingDialog_ProgressBar(MainActivity.this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
-        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                Toast.makeText(MainActivity.this, "Search Expand", Toast.LENGTH_SHORT).show();
-                return true;
-            }
 
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                Toast.makeText(MainActivity.this, "Search Collapse", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        };
-        menu.findItem(R.id.app_bar_search).setOnActionExpandListener(onActionExpandListener);
-        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
-        searchView.setQueryHint("Tìm kiếm sản phẩm");
         return true;
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.nav_home:
-                    openHomeFragment();
-                    bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                    break;
-                case R.id.nav_local_store:
-                    openStoreFragment();
-                    bottomNavigationView.getMenu().findItem(R.id.nav_local_store).setChecked(true);
-
-                    break;
-                case R.id.nav_payment:
-                    openPaymentFragment();
-                    bottomNavigationView.getMenu().findItem(R.id.nav_payment).setChecked(true);
-
-                    break;
-                case R.id.nav_account:
-                    openAccountFragment();
-                    bottomNavigationView.getMenu().findItem(R.id.nav_account).setChecked(true);
-
-                    break;
-            }
-            return true;
-        }
-    };
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_container, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
+    }
+
+    private void initFragment(Fragment fragment) {
+        currentFragment = FRAGMENT_HOME;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frame_container, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.commit();
+    }
+
+    private void openFragment(int currentFragment, Fragment fragment) {
+        if (this.currentFragment != currentFragment) {
+            Bundle bundle = new Bundle();
+            if (currentFragment == FRAGMENT_NAV_PHONE) {
+                bundle.putInt("positionPhone", 1);
+            }
+            if (currentFragment == FRAGMENT_NAV_TABLE) {
+                bundle.putInt("positionIpad", 2);
+            }
+            if (currentFragment == FRAGMENT_NAV_LAPTOP) {
+                bundle.putInt("positionLaptop", 3);
+            }
+            if (currentFragment == FRAGMENT_NAV_ACCESSORIES) {
+                bundle.putInt("positionAccessories", 4);
+            }
+            if (currentFragment == FRAGMENT_NAV_EARPHONE) {
+                bundle.putInt("positionEarphone", 5);
+            }
+            if (currentFragment == FRAGMENT_NAV_APPLECARE) {
+                bundle.putInt("positionApplecare", 8);
+            }
+            if (currentFragment == FRAGMENT_NAV_WATCH) {
+                bundle.putInt("positionWatch", 9);
+            }
+            fragment.setArguments(bundle);
+            loadFragment(fragment);
+            this.currentFragment = currentFragment;
+        }
     }
 
     private void getDataCategoryJson() {
@@ -259,10 +282,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
-                            id = jsonObject.getInt("idCategory");
-                            titleCategory = jsonObject.getString("title");
-                            urlCategory = jsonObject.getString("urlImage");
-                            descriptionCategory = jsonObject.getString("description");
+                            int id = jsonObject.getInt("idCategory");
+                            String titleCategory = jsonObject.getString("title");
+                            String urlCategory = jsonObject.getString("urlImage");
+                            String descriptionCategory = jsonObject.getString("description");
                             Category category = new Category(id, titleCategory, urlCategory, descriptionCategory);
                             categoryList.add(category);
                             adapterCategoryMenu.notifyDataSetChanged();
@@ -284,202 +307,111 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         requestQueue.add(jsonArrayRequest);
     }
 
-    private void clickItemListView() {
-        this.lv_menuItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @SuppressLint("NonConstantResourceId")
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                openFragment(FRAGMENT_HOME, new fragment_Home());
+                checkIdItemNav(R.id.nav_home);
+                break;
+            case R.id.nav_local_store:
+                openFragment(FRAGMENT_STORE, new fragment_Store());
+                checkIdItemNav(R.id.nav_local_store);
+                break;
+            case R.id.nav_payment:
+                openFragment(FRAGMENT_PAYMENT, new fragment_Payment());
+                checkIdItemNav(R.id.nav_payment);
+                break;
+            case R.id.nav_account:
+                openFragment(FRAGMENT_ACCOUNT, new fragment_Account());
+                checkIdItemNav(R.id.nav_account);
+                break;
+        }
+        return true;
+    }
+
+    private void initDrawerLayout() {
+        this.binding.lvMenuItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
 
-
-                    for (int i = 0; i <= lv_menuItem.getChildCount(); i++) {
+                    for (int i = 0; i <= binding.lvMenuItem.getChildCount(); i++) {
                         if (position == i) {
-                            lv_menuItem.getChildAt(i).setBackgroundColor(Color.parseColor("#ecc8ff"));
+                            binding.lvMenuItem.getChildAt(i).setBackgroundColor(Color.parseColor("#767dff"));
                         } else {
-                            lv_menuItem.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                            binding.lvMenuItem.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                         }
                     }
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 switch (position) {
                     case 0:
-                        openHomeFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_HOME, new fragment_Home());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 1:
-                        openPhoneFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        navigationView.setCheckedItem(position);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_PHONE, new fragment_Nav_Iphone());
+                        binding.navigationView.setCheckedItem(position);
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 2:
-                        openIpadFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_TABLE, new fragment_Nav_Ipad());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 3:
-                        openLaptopFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_LAPTOP, new fragment_Nav_Laptop());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 4:
-                        openAccessoriesFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_ACCESSORIES, new fragment_Nav_Accessories());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 5:
-                        openEarphoneFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_EARPHONE, new fragment_Nav_Earphone());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 6:
-                        openApplecareFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_APPLECARE, new fragment_Nav_Applecare());
+                        setBottomBarAndDrawerLayout();
                         break;
                     case 7:
-                        openWatchFragment();
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-                        drawerLayout.closeDrawer(GravityCompat.START);
+                        openFragment(FRAGMENT_NAV_WATCH, new fragment_Nav_Watch());
                         break;
                 }
             }
         });
     }
 
-    private void openHomeFragment() {
-        if (this.currentFragment != this.FRAGMENT_HOME) {
-            this.loadFragment(new fragment_Home());
-            this.currentFragment = this.FRAGMENT_HOME;
-
-        }
+    private void setBottomBarAndDrawerLayout() {
+        binding.bottomNavigaitonView.getMenu().findItem(R.id.nav_home).setChecked(true);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        this.toolbarBack(false);
     }
 
-    private void openStoreFragment() {
-        if (this.currentFragment != this.FRAGMENT_STORE) {
-            this.loadFragment(new fragment_Store());
-            this.currentFragment = this.FRAGMENT_STORE;
-        }
+    private void checkIdItemNav(int id_item) {
+        binding.bottomNavigaitonView.getMenu().findItem(id_item).setChecked(true);
+        toolbarBack(false);
     }
 
-    private void openPaymentFragment() {
-        if (this.currentFragment != this.FRAGMENT_PAYMENT) {
-            this.loadFragment(new fragment_Payment());
-            this.currentFragment = this.FRAGMENT_PAYMENT;
-        }
-    }
 
-    private void openAccountFragment() {
-        if (this.currentFragment != this.FRAGMENT_ACCOUNT) {
-            this.loadFragment(new fragment_Account());
-            this.currentFragment = this.FRAGMENT_ACCOUNT;
-        }
-    }
-
-    private void openPhoneFragment() {
-        if (currentFragment != FRAGMENT_NAV_PHONE) {
-            fragment_Nav_Iphone fragmentIphone = new fragment_Nav_Iphone();
-            Bundle bundleIphone = new Bundle();
-            bundleIphone.putInt("positionPhone", 1);
-            fragmentIphone.setArguments(bundleIphone);
-            loadFragment(fragmentIphone);
-            currentFragment = FRAGMENT_NAV_PHONE;
-        }
-    }
-
-    private void openIpadFragment() {
-        if (currentFragment != FRAGMENT_NAV_TABLE) {
-            fragment_Nav_Ipad fragmentNavIpad = new fragment_Nav_Ipad();
-            Bundle bundleIpad = new Bundle();
-            bundleIpad.putInt("positionIpad", 2);
-            fragmentNavIpad.setArguments(bundleIpad);
-            loadFragment(fragmentNavIpad);
-            currentFragment = FRAGMENT_NAV_TABLE;
-        }
-    }
-
-    private void openLaptopFragment() {
-        if (currentFragment != FRAGMENT_NAV_LAPTOP) {
-            fragment_Nav_Laptop fragmentNavLaptop = new fragment_Nav_Laptop();
-            Bundle bundleLaptop = new Bundle();
-            bundleLaptop.putInt("positionLaptop", 3);
-            fragmentNavLaptop.setArguments(bundleLaptop);
-            loadFragment(fragmentNavLaptop);
-            currentFragment = FRAGMENT_NAV_LAPTOP;
-        }
-
-    }
-
-    private void openAccessoriesFragment() {
-        if (currentFragment != FRAGMENT_NAV_ACCESSORIES) {
-            fragment_Nav_Accessories fragmentNavAccessories = new fragment_Nav_Accessories();
-            Bundle bundleAccessories = new Bundle();
-            bundleAccessories.putInt("positionAccessories", 4);
-            fragmentNavAccessories.setArguments(bundleAccessories);
-
-            loadFragment(fragmentNavAccessories);
-            currentFragment = FRAGMENT_NAV_ACCESSORIES;
-        }
-    }
-
-    private void openEarphoneFragment() {
-        if (currentFragment != FRAGMENT_NAV_EARPHONE) {
-            fragment_Nav_Earphone fragmentNavEarphone = new fragment_Nav_Earphone();
-            Bundle bundleEarphone = new Bundle();
-            bundleEarphone.putInt("positionEarphone", 5);
-            fragmentNavEarphone.setArguments(bundleEarphone);
-            loadFragment(fragmentNavEarphone);
-            currentFragment = FRAGMENT_NAV_EARPHONE;
-        }
-    }
-
-    private void openApplecareFragment() {
-        if (currentFragment != FRAGMENT_NAV_APPLECARE) {
-            fragment_Nav_Applecare fragmentNavApplecare = new fragment_Nav_Applecare();
-            Bundle bundleApplecare = new Bundle();
-            bundleApplecare.putInt("positionApplecare", 8);
-            fragmentNavApplecare.setArguments(bundleApplecare);
-            loadFragment(fragmentNavApplecare);
-            currentFragment = FRAGMENT_NAV_APPLECARE;
-        }
-    }
-
-    private void openWatchFragment() {
-        if (currentFragment != FRAGMENT_NAV_WATCH) {
-            fragment_Nav_Watch fragmentNavWatch = new fragment_Nav_Watch();
-            Bundle bundleWatch = new Bundle();
-            bundleWatch.putInt("positionWatch", 9);
-            fragmentNavWatch.setArguments(bundleWatch);
-            loadFragment(fragmentNavWatch);
-            currentFragment = FRAGMENT_NAV_WATCH;
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+    private void initBottomBar() {
+        binding.bottomNavigaitonView.setOnNavigationItemSelectedListener(MainActivity.this);
+        binding.bottomNavigaitonView.getMenu().findItem(R.id.nav_home).setChecked(true);
+        initFragment(new fragment_Home());
     }
 
     @Override
     public void onBackPressed() {
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count > 0) {
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
 
-    }
-
-    @Override
-    public void setDrawerLocked() {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
-
-    @Override
-    public void setDrawerUnlocked() {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 }
