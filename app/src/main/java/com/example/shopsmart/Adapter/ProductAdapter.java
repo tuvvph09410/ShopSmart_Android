@@ -49,7 +49,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Picasso.get().load(product.getUrlImage()).placeholder(R.drawable.ic_baseline_home_24).error(R.drawable.ic_baseline_error_24).into(holder.ivProduct);
         holder.tvNameProduct.setText(product.getName());
-        holder.tvPriceProduct.setText(decimalFormat.format(product.getPrice()) + "₫");
+        holder.tvPriceProduct.setText(decimalFormat.format(product.getToPrice()) + " - " + decimalFormat.format(product.getFromPrice()) + "₫");
         if (product.getActive() == 0) {
             holder.tvActiveProduct.setText("SẮP VỀ HÀNG");
         } else {
@@ -59,7 +59,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.idProduct = product.getId();
         holder.nameProduct = product.getName();
         holder.descriptionProduct = product.getDescription();
-        holder.priceProduct=product.getPrice();
+        holder.priceProduct = product.getToPrice();
+        holder.urlImageSimple=product.getUrlImage();
     }
 
     @Override
@@ -77,6 +78,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String nameProduct;
         String descriptionProduct;
         int priceProduct;
+        String urlImageSimple;
 
         public ViewHolderProduct(@NonNull View itemView) {
             super(itemView);
@@ -88,14 +90,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     fragment_Detail_Product fragment_detail_product = new fragment_Detail_Product();
                     Bundle bundle = new Bundle();
                     bundle.putInt("idProduct", idProduct);
                     bundle.putString("nameProduct", nameProduct);
                     bundle.putString("descriptionProduct", descriptionProduct);
-                    bundle.putInt("priceProduct",priceProduct);
+                    bundle.putInt("priceProduct", priceProduct);
+                    bundle.putString("urlImageSimple",urlImageSimple);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

@@ -4,7 +4,7 @@ public class ColorProduct {
     private int idColor;
     private int Product;
     private String urlImage;
-    private String colorCode;
+    private String color;
 
     public int getIdColor() {
         return idColor;
@@ -31,17 +31,17 @@ public class ColorProduct {
     }
 
     public String getColorCode() {
-        return colorCode;
+        return color;
     }
 
     public void setColorCode(String colorCode) {
-        this.colorCode = colorCode;
+        this.color = colorCode;
     }
 
     public ColorProduct(int idColor, int product, String urlImage, String colorCode) {
         this.idColor = idColor;
         Product = product;
         this.urlImage = urlImage;
-        this.colorCode = colorCode;
+        this.color = colorCode;
     }
 }

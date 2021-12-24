@@ -379,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         break;
                     case 7:
                         openFragment(FRAGMENT_NAV_WATCH, new fragment_Nav_Watch());
+                        setBottomBarAndDrawerLayout();
                         break;
                 }
             }

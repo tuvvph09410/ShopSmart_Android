@@ -52,7 +52,6 @@
                         android:textColor="#000000"
                         android:textSize="12dp" />
 
-
                     <TextView
                         android:id="@+id/tv_fragmentPriceProduct"
                         android:layout_width="wrap_content"
@@ -62,6 +61,8 @@
                         android:text="10000đ"
                         android:textColor="#F20"
                         android:textSize="10dp" />
+
+
 
 
                     <TextView

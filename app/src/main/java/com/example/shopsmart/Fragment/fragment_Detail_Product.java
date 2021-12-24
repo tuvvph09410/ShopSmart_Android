@@ -36,6 +36,7 @@ import com.example.shopsmart.Entity.ColorProduct;
 import com.example.shopsmart.R;
 import com.example.shopsmart.Until.CheckConnected;
 import com.example.shopsmart.Until.Server;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -55,16 +56,16 @@ import java.util.Map;
 
 public class fragment_Detail_Product extends Fragment {
     private CardView cvCenter, cvBottom;
-    private ActionBar actionBar;
     private SliderView sv_DetailProduct;
-    private TextView tvTitleDetailProduct, tvDescriptionProduct,tvPriceProduct;
-    private ImageView ivEvaluateProduct;
+    private TextView tvTitleDetailProduct, tvDescriptionProduct, tvPriceProduct;
+    private ImageView ivEvaluateProduct, iv_DetailProduct;
     private List<ColorProduct> listColor;
     private SliderAdapterDetailProduct sliderAdapterDetailProduct;
     private int idProduct;
     private String nameProduct;
     private String descriptionProduct;
     private int priceProduct;
+    private String urlImageSimple;
 
     public fragment_Detail_Product() {
         // Required empty public constructor
@@ -115,7 +116,8 @@ public class fragment_Detail_Product extends Fragment {
         this.tvTitleDetailProduct = view.findViewById(R.id.tv_nameDetailProduct);
         this.ivEvaluateProduct = view.findViewById(R.id.iv_evaluateProduct);
         this.tvDescriptionProduct = view.findViewById(R.id.tv_informationProduct);
-        this.tvPriceProduct=view.findViewById(R.id.tvPriceProduct);
+        this.tvPriceProduct = view.findViewById(R.id.tvPriceProduct);
+        this.iv_DetailProduct = view.findViewById(R.id.iv_svDetailProduct);
     }
 
     private void getArgument() {
@@ -123,13 +125,13 @@ public class fragment_Detail_Product extends Fragment {
         Log.d("idProduct", String.valueOf(idProduct));
         this.nameProduct = getArguments().getString("nameProduct");
         this.descriptionProduct = getArguments().getString("descriptionProduct");
-        this.priceProduct=getArguments().getInt("priceProduct");
-
+        this.priceProduct = getArguments().getInt("priceProduct");
+        this.urlImageSimple = getArguments().getString("urlImageSimple");
 
     }
 
     private void loadDetailProduct() {
-        DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         this.tvTitleDetailProduct.setText(this.nameProduct);
         this.tvDescriptionProduct.setText(this.descriptionProduct);
         this.tvPriceProduct.setText(decimalFormat.format(this.priceProduct) + "đ");
@@ -140,11 +142,15 @@ public class fragment_Detail_Product extends Fragment {
     }
 
     private void slideImageProduct() {
+
         this.sliderAdapterDetailProduct = new SliderAdapterDetailProduct(this.listColor);
         this.sv_DetailProduct.setSliderAdapter(this.sliderAdapterDetailProduct);
         this.sv_DetailProduct.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
-        this.sv_DetailProduct.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+        this.sv_DetailProduct.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        this.sv_DetailProduct.setScrollTimeInSec(4);
         this.sv_DetailProduct.startAutoCycle();
+
+
     }
 
     private void setBackgroundCardView() {
@@ -162,18 +168,25 @@ public class fragment_Detail_Product extends Fragment {
                 if (response != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
+                        if (jsonArray.length()>0){
+                            sv_DetailProduct.setVisibility(View.VISIBLE);
+                            iv_DetailProduct.setVisibility(View.GONE);
+                        }
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            int idColor = jsonObject.getInt("idColor");
+                            int idColor = jsonObject.getInt("idImage");
                             int idProduct = jsonObject.getInt("idProduct");
                             String urlImages = jsonObject.getString("urlImage");
-                            String codeColor = jsonObject.getString("codeColor");
-                            ColorProduct colorProduct = new ColorProduct(idColor, idProduct, urlImages, codeColor);
+                            String color = jsonObject.getString("color");
+                            ColorProduct colorProduct = new ColorProduct(idColor, idProduct, urlImages, color);
                             listColor.add(colorProduct);
                             sliderAdapterDetailProduct.notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        sv_DetailProduct.setVisibility(View.GONE);
+                        iv_DetailProduct.setVisibility(View.VISIBLE);
+                        Picasso.get().load(urlImageSimple).error(R.drawable.ic_baseline_error_24).into(iv_DetailProduct);
                     }
                 }
 

@@ -197,11 +197,12 @@ public class fragment_Nav_Accessories extends Fragment {
                             int id = jsonObject.getInt("idProduct");
                             String name = jsonObject.getString("name");
                             int idCategory = jsonObject.getInt("idCategory");
-                            int price = jsonObject.getInt("price");
-                            String urlImage = jsonObject.getString("urlImage");
+                            int toPrice = jsonObject.getInt("toPrice");
+                            int fromPrice = jsonObject.getInt("fromPrice");
+                            String urlImage = jsonObject.getString("urlImageSimple");
                             String description = jsonObject.getString("description");
                             int active = jsonObject.getInt("active");
-                            Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                            Product product = new Product(id, name, idCategory, toPrice,fromPrice, urlImage, description, active);
                             productList.add(product);
                             productAccessoriesAdapter.notifyDataSetChanged();
                         }
@@ -251,11 +252,12 @@ public class fragment_Nav_Accessories extends Fragment {
                         int id = jsonObject.getInt("idProduct");
                         String name = jsonObject.getString("name");
                         int idCategory = jsonObject.getInt("idCategory");
-                        int price = jsonObject.getInt("price");
-                        String urlImage = jsonObject.getString("urlImage");
+                        int toPrice = jsonObject.getInt("toPrice");
+                        int fromPrice = jsonObject.getInt("fromPrice");
+                        String urlImage = jsonObject.getString("urlImageSimple");
                         String description = jsonObject.getString("description");
                         int active = jsonObject.getInt("active");
-                        Product product = new Product(id, name, idCategory, price, urlImage, description, active);
+                        Product product = new Product(id, name, idCategory, toPrice,fromPrice, urlImage, description, active);
                         productList.add(product);
                         productAccessoriesAdapter.notifyDataSetChanged();
                     }
