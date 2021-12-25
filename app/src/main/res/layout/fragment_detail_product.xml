@@ -26,11 +26,7 @@
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/sv_DetailProduct"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="210dp"
                     android:background="@drawable/round_image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -41,22 +37,22 @@
                     app:sliderAutoCycleEnabled="true"
                     app:sliderIndicatorAnimationDuration="700"
                     app:sliderIndicatorGravity="center_horizontal|bottom"
-                    app:sliderIndicatorPadding="4dp"
+                    app:sliderIndicatorPadding="3dp"
                     app:sliderIndicatorRadius="2.5dp"
                     app:sliderIndicatorSelectedColor="#9b45ff"
                     app:sliderIndicatorUnselectedColor="#f5f5ff"
                     app:sliderScrollTimeInSec="3"
-                    app:sliderStartAutoCycle="true"/>
+                    app:sliderStartAutoCycle="true" />
 
 
                 <ImageView
                     android:id="@+id/iv_svDetailProduct"
                     android:layout_width="wrap_content"
-                    android:layout_height="180dp"
+                    android:layout_height="170dp"
                     android:layout_marginStart="100dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +130,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_weight="4">
+                            android:layout_weight="3.5">
 
                             <TextView
                                 android:id="@+id/tv_informationProduct"
@@ -144,12 +140,14 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/llCapacity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
@@ -161,103 +159,164 @@
                                 android:textColor="@color/black"
                                 android:textSize="14dp" />
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_detail1TB"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:layout_width="53dp"
-                                android:layout_height="35dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:text="1TB"
-                                android:textSize="8dp"
-                                app:cornerRadius="20dp" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_detail512GB"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:layout_width="65dp"
-                                android:layout_height="35dp"
-                                android:text="512GB"
-                                android:textSize="8dp"
-                                app:cornerRadius="20dp" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_detail256GB"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:layout_width="65dp"
-                                android:layout_height="35dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:text="256GB"
-                                android:textSize="8dp"
-                                app:cornerRadius="20dp" />
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail1"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_detail128GB"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:layout_width="65dp"
-                                android:layout_height="35dp"
-                                android:text="128GB"
-                                android:textSize="8dp"
-                                app:cornerRadius="20dp" />
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail2"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail3"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail4"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail5"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/mbtn_detail6"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="80dp"
+                                        android:layout_height="40dp"
+                                        android:textSize="8dp"
+                                        app:cornerRadius="10dp" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
-                            android:layout_weight="0.2"
+                            android:layout_weight="0.5"
+                            android:layout_gravity="center"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="15dp"
                                 android:text="Màu có sẵn:"
                                 android:textColor="@color/black"
                                 android:textSize="14dp" />
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_ColorSilverProduct"
+                                android:id="@+id/si_Color1"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
-                                android:layout_marginRight="25dp"
+                                android:layout_marginRight="10dp"
                                 android:adjustViewBounds="true"
                                 android:background="#C0C0C0"
                                 android:scaleType="centerCrop"
                                 app:shapeAppearanceOverlay="@style/roundColor" />
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_ColorGrayProduct"
+                                android:id="@+id/si_Color2"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
-                                android:layout_marginRight="25dp"
+                                android:layout_marginRight="10dp"
                                 android:adjustViewBounds="true"
                                 android:background="#808080"
                                 android:scaleType="centerCrop"
                                 app:shapeAppearanceOverlay="@style/roundColor" />
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_ColorGoldProduct"
+                                android:id="@+id/si_Color3"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
-                                android:layout_marginRight="25dp"
+                                android:layout_marginRight="10dp"
                                 android:adjustViewBounds="true"
                                 android:background="#D4AF37"
                                 android:scaleType="centerCrop"
                                 app:shapeAppearanceOverlay="@style/roundColor" />
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_ColorBlueProduct"
+                                android:id="@+id/si_Color4"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:adjustViewBounds="true"
+                                android:layout_marginRight="10dp"
                                 android:background="#6495ED"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_Color5"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:adjustViewBounds="true"
+                                android:background="#D4AF37"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/roundColor" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/si_Color6"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:adjustViewBounds="true"
+                                android:background="#D4AF37"
                                 android:scaleType="centerCrop"
                                 app:shapeAppearanceOverlay="@style/roundColor" />
 

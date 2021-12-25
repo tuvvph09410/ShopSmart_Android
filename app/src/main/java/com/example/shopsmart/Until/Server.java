@@ -8,6 +8,11 @@ public class Server {
     private static String urlGetProductByIDmanufacturer = localhost + "/shop_smart/getselect_byIdmanufacturer_product.php";
     private static String urlGetProductByIDmanufacturerAndCategory = localhost + "/shop_smart/getselect_byidcategory_and_manufacturer_product.php";
     private static String urlGetColorByIDProduct = localhost + "/shop_smart/getselect_byIdProduct_color_and_image.php";
+    private static String urlGetCapacityIDProduct = localhost + "/shop_smart/getselect_byidProduct_capacity.php";
+
+    public static String getUrlGetCapacityIDProduct() {
+        return urlGetCapacityIDProduct;
+    }
 
     public static String getUrlGetProductByIDmanufacturerAndCategory() {
         return urlGetProductByIDmanufacturerAndCategory;

@@ -38,9 +38,9 @@ public class ColorProduct {
         this.color = colorCode;
     }
 
-    public ColorProduct(int idColor, int product, String urlImage, String colorCode) {
+    public ColorProduct(int idColor,int product , String urlImage, String colorCode) {
         this.idColor = idColor;
-        Product = product;
+        this.Product=product;
         this.urlImage = urlImage;
         this.color = colorCode;
     }
