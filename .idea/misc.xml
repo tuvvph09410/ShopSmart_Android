@@ -6,8 +6,10 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.2578125" />
         <entry key="../../../Library/Android/sdk/platforms/android-30/data/res/drawable/editbox_background.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24051282051282052" />
+        <entry key="app/src/main/res/drawable/button_background_color.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/drawable/corner_cardview_bottom_product.xml" value="0.25277777777777777" />
         <entry key="app/src/main/res/drawable/corner_cardview_center_product.xml" value="0.24444444444444444" />
+        <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_baseline_manage_accounts_24.xml" value="0.2548717948717949" />
         <entry key="app/src/main/res/drawable/ic_baseline_notifications_none_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_payment_24.xml" value="0.2548717948717949" />
@@ -30,7 +32,7 @@
         <entry key="app/src/main/res/layout/fragment__payment.xml" value="0.11803444782168186" />
         <entry key="app/src/main/res/layout/fragment_acount.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.11803444782168186" />
-        <entry key="app/src/main/res/layout/fragment_detail_product.xml" value="0.3524451939291737" />
+        <entry key="app/src/main/res/layout/fragment_detail_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_fullscreen.xml" value="0.11094224924012158" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/fragment_nav_accessories.xml" value="0.11803444782168186" />
@@ -43,6 +45,8 @@
         <entry key="app/src/main/res/layout/fragment_nav_watch.xml" value="0.12952898550724637" />
         <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.14356884057971014" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.14356884057971014" />
+        <entry key="app/src/main/res/layout/item_capacity_detail_product.xml" value="0.9365671641791045" />
+        <entry key="app/src/main/res/layout/item_color_detail_product.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_recyclerview_accessories_product.xml" value="0.11803444782168186" />
         <entry key="app/src/main/res/layout/item_recyclerview_applecare_product.xml" value="0.11803444782168186" />
         <entry key="app/src/main/res/layout/item_recyclerview_applewatch_product.xml" value="0.11803444782168186" />

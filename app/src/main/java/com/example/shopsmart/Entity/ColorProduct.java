@@ -5,7 +5,7 @@ public class ColorProduct {
     private int Product;
     private String urlImage;
     private String color;
-
+    private String codeColor;
     public int getIdColor() {
         return idColor;
     }
@@ -38,10 +38,27 @@ public class ColorProduct {
         this.color = colorCode;
     }
 
-    public ColorProduct(int idColor,int product , String urlImage, String colorCode) {
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getCodeColor() {
+        return codeColor;
+    }
+
+    public void setCodeColor(String codeColor) {
+        this.codeColor = codeColor;
+    }
+
+    public ColorProduct(int idColor, int product, String urlImage, String color, String codeColor) {
         this.idColor = idColor;
-        this.Product=product;
+        Product = product;
         this.urlImage = urlImage;
-        this.color = colorCode;
+        this.color = color;
+        this.codeColor = codeColor;
     }
 }

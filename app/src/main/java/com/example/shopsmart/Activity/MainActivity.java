@@ -335,7 +335,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-
                     for (int i = 0; i <= binding.lvMenuItem.getChildCount(); i++) {
                         if (position == i) {
                             binding.lvMenuItem.getChildAt(i).setBackgroundColor(Color.parseColor("#767dff"));

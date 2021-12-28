@@ -59,6 +59,7 @@ public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartP
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
         holder.urlImageSimple = product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -77,6 +78,7 @@ public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartP
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
+        int activeProduct;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,6 +99,7 @@ public class ProductSmartPhoneAdapter extends RecyclerView.Adapter<ProductSmartP
                     bundle.putInt("priceProduct", priceProduct);
                     fragment_detail_product.setArguments(bundle);
                     bundle.putString("urlImageSimple", urlImageSimple);
+                    bundle.putInt("activeProduct", activeProduct);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)
                             .addToBackStack(fragment_detail_product.getClass().getName())

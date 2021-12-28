@@ -130,13 +130,30 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_weight="3.5">
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="2.6">
 
                             <TextView
                                 android:id="@+id/tv_informationProduct"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng 5G tốc độ cao - Không gian hiển thị sống động - Màn hình 6.7 Super Retina XDR độ sáng cao, sắc nét" />
+                            <TextView
+                                android:id="@+id/tvActiveDetailProduct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center"
+                                android:layout_margin="10dp"
+                                android:visibility="gone"
+                                android:padding="5dp"
+                                android:layout_gravity="center"
+                                android:text="Sắp Về Hàng "
+                                android:textColor="#F20"
+                                android:textSize="15dp"
+                                />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -147,7 +164,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
@@ -159,166 +176,44 @@
                                 android:textColor="@color/black"
                                 android:textSize="14dp" />
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_capacityDetail"
+                                android:layout_width="match_parent"
                                 android:layout_gravity="center"
-                                android:layout_marginStart="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail1"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail2"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginRight="5dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail3"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail4"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail5"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginRight="5dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/mbtn_detail6"
-                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                        android:layout_width="80dp"
-                                        android:layout_height="40dp"
-                                        android:textSize="8dp"
-                                        app:cornerRadius="10dp" />
-                                </LinearLayout>
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp" />
 
 
-                            </LinearLayout>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:layout_weight="0.5"
                             android:layout_gravity="center"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="15dp"
+                            android:id="@+id/llColor"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1.5"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="15dp"
+                                android:layout_marginRight="5dp"
                                 android:text="Màu có sẵn:"
                                 android:textColor="@color/black"
                                 android:textSize="14dp" />
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color1"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_colorDetail"
+                                android:layout_width="match_parent"
                                 android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="#C0C0C0"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color2"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="#808080"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color3"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="#D4AF37"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color4"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:adjustViewBounds="true"
-                                android:layout_marginRight="10dp"
-                                android:background="#6495ED"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color5"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="#D4AF37"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/si_Color6"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:adjustViewBounds="true"
-                                android:background="#D4AF37"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/roundColor" />
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp" />
 
                         </LinearLayout>
 
@@ -378,6 +273,23 @@
                                 android:text="Thêm vào giỏ hàng"
                                 app:cornerRadius="20dp"
                                 app:icon="@drawable/ic_baseline_add_shopping_cart_24"
+                                app:iconSize="15dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.225" />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/mbtnAddInfomation"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:text="Đăng ký nhận thông tin"
+                                app:cornerRadius="20dp"
+                                android:visibility="gone"
+                                app:icon="@drawable/ic_baseline_app_registration_24"
                                 app:iconSize="15dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"

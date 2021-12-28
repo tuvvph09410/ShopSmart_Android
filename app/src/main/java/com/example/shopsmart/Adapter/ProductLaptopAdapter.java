@@ -21,15 +21,15 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAdapter.ViewHolder>{
+public class ProductLaptopAdapter extends RecyclerView.Adapter<ProductLaptopAdapter.ViewHolder> {
     private Context context;
     private List<Product> productList;
+
     public ProductLaptopAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
 
     }
-
 
 
     @NonNull
@@ -46,11 +46,12 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Laptop);
         holder.tv_nameLaptop.setText(product.getName());
-        if (product.getFromPrice() != 0){
-            holder.tv_priceLaptop.setText(decimalFormat.format(product.getToPrice()) + " - " +decimalFormat.format(product.getFromPrice()) +"₫");
-        }else {
-            holder.tv_priceLaptop.setText(decimalFormat.format(product.getToPrice())+"₫");
-        }        if (product.getActive() == 0) {
+        if (product.getFromPrice() != 0) {
+            holder.tv_priceLaptop.setText(decimalFormat.format(product.getToPrice()) + " - " + decimalFormat.format(product.getFromPrice()) + "₫");
+        } else {
+            holder.tv_priceLaptop.setText(decimalFormat.format(product.getToPrice()) + "₫");
+        }
+        if (product.getActive() == 0) {
             holder.tv_activeLaptop.setText("SẮP VỀ HÀNG");
         } else {
             holder.tv_activeLaptop.setText("CÒN HÀNG");
@@ -59,7 +60,8 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
         holder.nameProduct = product.getName();
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
-        holder.urlImageSimple=product.getUrlImage();
+        holder.urlImageSimple = product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -78,12 +80,14 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
+        int activeProduct;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Laptop = itemView.findViewById(R.id.iv_Laptop_Product);
             tv_nameLaptop = itemView.findViewById(R.id.tv_nameLaptop_Product);
             tv_priceLaptop = itemView.findViewById(R.id.tv_priceLaptop_Product);
-            tv_activeLaptop =itemView.findViewById(R.id.tv_activeLaptop_Product);
+            tv_activeLaptop = itemView.findViewById(R.id.tv_activeLaptop_Product);
             cardView = itemView.findViewById(R.id.cv_Laptop_Product);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,7 +99,8 @@ public class ProductLaptopAdapter  extends RecyclerView.Adapter<ProductLaptopAda
                     bundle.putString("nameProduct", nameProduct);
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
-                    bundle.putString("urlImageSimple",urlImageSimple);
+                    bundle.putString("urlImageSimple", urlImageSimple);
+                    bundle.putInt("activeProduct", activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

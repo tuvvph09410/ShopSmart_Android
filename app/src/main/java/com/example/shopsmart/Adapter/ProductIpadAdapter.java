@@ -21,14 +21,14 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.ViewHolder>{
+public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.ViewHolder> {
     private Context context;
     private List<Product> productList;
+
     public ProductIpadAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
-
 
 
     @NonNull
@@ -45,10 +45,10 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Ipad);
         holder.tv_nameIpad.setText(product.getName());
-        if (product.getFromPrice() != 0){
-            holder.tv_priceIpad.setText(decimalFormat.format(product.getToPrice()) + " - " +decimalFormat.format(product.getFromPrice()) +"₫");
-        }else {
-            holder.tv_priceIpad.setText(decimalFormat.format(product.getToPrice())+"₫");
+        if (product.getFromPrice() != 0) {
+            holder.tv_priceIpad.setText(decimalFormat.format(product.getToPrice()) + " - " + decimalFormat.format(product.getFromPrice()) + "₫");
+        } else {
+            holder.tv_priceIpad.setText(decimalFormat.format(product.getToPrice()) + "₫");
         }
         if (product.getActive() == 0) {
             holder.tv_activeIpad.setText("SẮP VỀ HÀNG");
@@ -59,7 +59,8 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
         holder.nameProduct = product.getName();
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
-        holder.urlImageSimple=product.getUrlImage();
+        holder.urlImageSimple = product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -78,6 +79,8 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
+        int activeProduct;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Ipad = itemView.findViewById(R.id.iv_Ipad_Product);
@@ -95,7 +98,8 @@ public class ProductIpadAdapter extends RecyclerView.Adapter<ProductIpadAdapter.
                     bundle.putString("nameProduct", nameProduct);
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
-                    bundle.putString("urlImageSimple",urlImageSimple);
+                    bundle.putString("urlImageSimple", urlImageSimple);
+                    bundle.putInt("activeProduct", activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

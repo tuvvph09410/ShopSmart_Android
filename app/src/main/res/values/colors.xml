@@ -12,19 +12,5 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-    <color name="colorXanhLa">#008000</color>
-    <color name="colorXanhDuong">#87CEEB</color>
-    <color name="colorXanhBacHa">#8FD9C4</color>
-    <color name="colorXanh">#32CD32</color>
-    <color name="colorXam">#808080</color>
-    <color name="colorVangDong">#DAA520</color>
-    <color name="colorVang">#FFD700</color>
-    <color name="colorTrang">#FFFAFA</color>
-    <color name="colorTim">#8A2BE2</color>
-    <color name="colorKem">#fffaa8</color>
-    <color name="colorHong">##FFC0CB</color>
-    <color name="colorDo">#FF0000</color>
-    <color name="colorDen">#FF000000</color>
-    <color name="colorBac">#C0C0C0</color>
 
 </resources>

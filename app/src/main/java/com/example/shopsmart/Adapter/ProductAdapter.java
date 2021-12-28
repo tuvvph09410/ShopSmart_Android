@@ -61,6 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
         holder.urlImageSimple=product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
-
+        int activeProduct;
         public ViewHolderProduct(@NonNull View itemView) {
             super(itemView);
             ivProduct = itemView.findViewById(R.id.iv_fragmentImageProduct);
@@ -98,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
                     bundle.putString("urlImageSimple",urlImageSimple);
+                    bundle.putInt("activeProduct",activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

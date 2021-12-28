@@ -60,6 +60,8 @@ public class ProductAccessoriesAdapter extends RecyclerView.Adapter<ProductAcces
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
         holder.urlImageSimple=product.getUrlImage();
+        holder.activeProduct=product.getActive();
+        int activeProduct;
     }
 
     @Override
@@ -78,7 +80,7 @@ public class ProductAccessoriesAdapter extends RecyclerView.Adapter<ProductAcces
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
-
+        int activeProduct;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Accessories = itemView.findViewById(R.id.iv_Accessories_Product);
@@ -97,6 +99,7 @@ public class ProductAccessoriesAdapter extends RecyclerView.Adapter<ProductAcces
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
                     bundle.putString("urlImageSimple",urlImageSimple);
+                    bundle.putInt("activeProduct",activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

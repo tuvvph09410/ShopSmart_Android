@@ -21,14 +21,14 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductApplecareAdapter.ViewHolder>{
+public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductApplecareAdapter.ViewHolder> {
     private Context context;
     private List<Product> productList;
+
     public ProductApplecareAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
-
 
 
     @NonNull
@@ -45,10 +45,10 @@ public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductAppleca
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Picasso.get().load(product.getUrlImage()).error(R.drawable.ic_baseline_error_24).into(holder.iv_Applecare);
         holder.tv_nameApplecare.setText(product.getName());
-        if (product.getFromPrice() != 0){
-            holder.tv_priceApplecare.setText(decimalFormat.format(product.getToPrice()) + " - " +decimalFormat.format(product.getFromPrice()) +"₫");
-        }else {
-            holder.tv_priceApplecare.setText(decimalFormat.format(product.getToPrice())+"₫");
+        if (product.getFromPrice() != 0) {
+            holder.tv_priceApplecare.setText(decimalFormat.format(product.getToPrice()) + " - " + decimalFormat.format(product.getFromPrice()) + "₫");
+        } else {
+            holder.tv_priceApplecare.setText(decimalFormat.format(product.getToPrice()) + "₫");
         }
 
         if (product.getActive() == 0) {
@@ -60,7 +60,8 @@ public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductAppleca
         holder.nameProduct = product.getName();
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
-        holder.urlImageSimple=product.getUrlImage();
+        holder.urlImageSimple = product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -79,6 +80,8 @@ public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductAppleca
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
+        int activeProduct;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Applecare = itemView.findViewById(R.id.iv_Applecare_Product);
@@ -96,7 +99,8 @@ public class ProductApplecareAdapter extends RecyclerView.Adapter<ProductAppleca
                     bundle.putString("nameProduct", nameProduct);
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
-                    bundle.putString("urlImageSimple",urlImageSimple);
+                    bundle.putString("urlImageSimple", urlImageSimple);
+                    bundle.putInt("activeProduct", activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)

@@ -59,7 +59,8 @@ public class ProductWatchAdapter extends RecyclerView.Adapter<ProductWatchAdapte
         holder.nameProduct = product.getName();
         holder.descriptionProduct = product.getDescription();
         holder.priceProduct = product.getToPrice();
-        holder.urlImageSimple=product.getUrlImage();
+        holder.urlImageSimple = product.getUrlImage();
+        holder.activeProduct = product.getActive();
     }
 
     @Override
@@ -78,6 +79,8 @@ public class ProductWatchAdapter extends RecyclerView.Adapter<ProductWatchAdapte
         String descriptionProduct;
         int priceProduct;
         String urlImageSimple;
+        int activeProduct;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_Watch = itemView.findViewById(R.id.iv_Watch_Product);
@@ -96,6 +99,7 @@ public class ProductWatchAdapter extends RecyclerView.Adapter<ProductWatchAdapte
                     bundle.putString("descriptionProduct", descriptionProduct);
                     bundle.putInt("priceProduct", priceProduct);
                     bundle.putString("urlImageSimple", urlImageSimple);
+                    bundle.putInt("activeProduct", activeProduct);
                     fragment_detail_product.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_container, fragment_detail_product)
