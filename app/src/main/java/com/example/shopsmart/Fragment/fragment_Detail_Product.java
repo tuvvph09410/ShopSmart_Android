@@ -2,6 +2,7 @@ package com.example.shopsmart.Fragment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -56,7 +57,7 @@ import java.util.Map;
 public class fragment_Detail_Product extends Fragment {
     private CardView cvCenter, cvBottom;
     private SliderView sv_DetailProduct;
-    private TextView tvTitleDetailProduct, tvDescriptionProduct, tvPriceProduct, tvActiveDetailProduct;
+    private TextView tvTitleDetailProduct, tvDescriptionProduct, tvBasePriceDetail, tvActiveDetailProduct, tvSalePriceDetail;
     private ImageView ivEvaluateProduct, iv_DetailProduct;
     private Button mbtnAddInfomation, mbtnAddCart;
 
@@ -73,6 +74,10 @@ public class fragment_Detail_Product extends Fragment {
     private RecyclerView rvColor, rvCapacityDetail;
     private ItemColorDetailProductAdapter itemColorDetailProductAdapter;
     private ItemCapacityDetailProducAdapter itemCapacityDetailProducAdapter;
+    private int getSalePriceProduct = 0;
+    private int getIdCapacityProduct = 0;
+    private int getIdColorProduct = 0;
+    private int idCart;
 
     public fragment_Detail_Product() {
         // Required empty public constructor
@@ -109,7 +114,28 @@ public class fragment_Detail_Product extends Fragment {
 
         this.initItem();
 
+        this.clickButton();
         return view;
+    }
+
+    private void clickButton() {
+        this.mbtnAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getSalePriceProduct != 0) {
+                    Log.d("getCapacityProduct", String.valueOf(getSalePriceProduct));
+                } else {
+                    Toast.makeText(getContext(), "Vui chọn đầy đủ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        this.mbtnAddInfomation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void checkActive() {
@@ -181,7 +207,7 @@ public class fragment_Detail_Product extends Fragment {
             this.rvCapacityDetail.setAdapter(itemCapacityDetailProducAdapter);
             this.itemCapacityDetailProducAdapter.setItemClickListener(new ItemClickListenerCapacity() {
                 @Override
-                public void onClick(View view, int position, int price) {
+                public void onClick(View view, int position, int price, int salePrice ,int idCapacity) {
                     for (int i = 0; i < rvCapacityDetail.getChildCount(); i++) {
                         if (i == position) {
                             rvCapacityDetail.getChildAt(i).setBackground(getResources().getDrawable(R.drawable.button_background_color));
@@ -190,8 +216,25 @@ public class fragment_Detail_Product extends Fragment {
                         }
                     }
                     DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-                    tvPriceProduct.setText(decimalFormat.format(price));
+                    if (price != 0 || salePrice != 0) {
+                        if (salePrice != 0) {
+                            getSalePriceProduct = salePrice;
+                            tvSalePriceDetail.setText(decimalFormat.format(salePrice) + "đ");
+                            tvBasePriceDetail.setVisibility(View.VISIBLE);
+                            tvBasePriceDetail.setText(decimalFormat.format(price) + "đ");
+                            tvBasePriceDetail.setPaintFlags(tvBasePriceDetail.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        } else {
+                            tvSalePriceDetail.setText(decimalFormat.format(price) + "đ");
+                            tvBasePriceDetail.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        tvSalePriceDetail.setText("Giá liên hệ");
+                        tvBasePriceDetail.setVisibility(View.GONE);
+                    }
+
                 }
+
             });
         } else {
             Toast.makeText(getContext(), "isEmpty", Toast.LENGTH_SHORT).show();
@@ -205,14 +248,13 @@ public class fragment_Detail_Product extends Fragment {
         this.tvTitleDetailProduct = view.findViewById(R.id.tv_nameDetailProduct);
         this.ivEvaluateProduct = view.findViewById(R.id.iv_evaluateProduct);
         this.tvDescriptionProduct = view.findViewById(R.id.tv_informationProduct);
-        this.tvPriceProduct = view.findViewById(R.id.tvPriceProduct);
+        this.tvBasePriceDetail = view.findViewById(R.id.tvBasePriceDetail);
         this.iv_DetailProduct = view.findViewById(R.id.iv_svDetailProduct);
         this.llCapacity = view.findViewById(R.id.llCapacity);
         this.llColor = view.findViewById(R.id.llColor);
-
         this.rvColor = view.findViewById(R.id.rv_colorDetail);
         this.rvCapacityDetail = view.findViewById(R.id.rv_capacityDetail);
-
+        this.tvSalePriceDetail = view.findViewById(R.id.tvSalePriceDetail);
         this.tvActiveDetailProduct = view.findViewById(R.id.tvActiveDetailProduct);
         this.mbtnAddInfomation = view.findViewById(R.id.mbtnAddInfomation);
         this.mbtnAddCart = view.findViewById(R.id.mbtnAddCart);
@@ -233,7 +275,8 @@ public class fragment_Detail_Product extends Fragment {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         this.tvTitleDetailProduct.setText(this.nameProduct);
         this.tvDescriptionProduct.setText(this.descriptionProduct);
-        this.tvPriceProduct.setText(decimalFormat.format(this.priceProduct) + "đ");
+        this.tvSalePriceDetail.setText(decimalFormat.format(this.priceProduct) + "đ");
+        this.tvBasePriceDetail.setVisibility(View.GONE);
     }
 
     private void loadImage() {
@@ -323,7 +366,8 @@ public class fragment_Detail_Product extends Fragment {
                             int idproduct = jsonObject.getInt("idProduct");
                             String capacity = jsonObject.getString("capacity");
                             int price = jsonObject.getInt("price");
-                            CapacityProduct product = new CapacityProduct(idCapacity, capacity, price);
+                            int salePrice = jsonObject.getInt("sale_price");
+                            CapacityProduct product = new CapacityProduct(idCapacity, capacity, price, salePrice);
                             listCapacity.add(product);
                         }
                         initItemCapacity();

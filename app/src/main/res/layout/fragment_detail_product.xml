@@ -132,13 +132,14 @@
                             android:layout_marginRight="15dp"
                             android:layout_gravity="center"
                             android:orientation="vertical"
-                            android:layout_weight="2.6">
+                            android:layout_weight="2">
 
                             <TextView
                                 android:id="@+id/tv_informationProduct"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng 5G tốc độ cao - Không gian hiển thị sống động - Màn hình 6.7 Super Retina XDR độ sáng cao, sắc nét" />
+
                             <TextView
                                 android:id="@+id/tvActiveDetailProduct"
                                 android:layout_width="wrap_content"
@@ -247,7 +248,7 @@
                                 app:layout_constraintVertical_bias="0.142" />
 
                             <TextView
-                                android:id="@+id/tvPriceProduct"
+                                android:id="@+id/tvSalePriceDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
@@ -278,6 +279,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0.225" />
+
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/mbtnAddInfomation"
                                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -287,14 +289,26 @@
                                 android:layout_marginEnd="15dp"
                                 android:layout_marginBottom="15dp"
                                 android:text="Đăng ký nhận thông tin"
-                                app:cornerRadius="20dp"
                                 android:visibility="gone"
+                                app:cornerRadius="20dp"
                                 app:icon="@drawable/ic_baseline_app_registration_24"
                                 app:iconSize="15dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0.225" />
+
+                            <TextView
+                                android:id="@+id/tvBasePriceDetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="3300"
+                                android:textSize="12dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.864" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>

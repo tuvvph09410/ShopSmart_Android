@@ -45,6 +45,8 @@ public class ItemCapacityDetailProducAdapter extends RecyclerView.Adapter<ItemCa
         holder.tvItemCapacity.setText(capacityProduct.getCapacity());
         holder.position = position;
         holder.price = capacityProduct.getPrice();
+        holder.salePrice = capacityProduct.getSalePrice();
+        holder.idCapacity = capacityProduct.getIdCapacity();
     }
 
     @Override
@@ -56,6 +58,8 @@ public class ItemCapacityDetailProducAdapter extends RecyclerView.Adapter<ItemCa
         TextView tvItemCapacity;
         int position;
         int price;
+        int salePrice;
+        int idCapacity;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +68,7 @@ public class ItemCapacityDetailProducAdapter extends RecyclerView.Adapter<ItemCa
                 @Override
                 public void onClick(View v) {
                     if (itemClickListenerCapacity != null) {
-                        itemClickListenerCapacity.onClick(v, position, price);
+                        itemClickListenerCapacity.onClick(v, position, price, salePrice, idCapacity);
                     }
                 }
             });
